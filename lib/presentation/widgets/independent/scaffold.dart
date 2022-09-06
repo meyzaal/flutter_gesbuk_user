@@ -35,11 +35,7 @@ class GesbukUserScaffold extends StatelessWidget {
                   : null,
             )
           : null,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.sidePadding, vertical: 8.0),
-        child: body,
-      ),
+      body: body,
       bottomNavigationBar: bottomMenuIndex != null
           ? GesbukUserBottomMenu(bottomMenuIndex!)
           : null,

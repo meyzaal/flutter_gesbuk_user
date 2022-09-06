@@ -12,13 +12,14 @@ class EventScreen extends StatelessWidget {
       'tes1',
       'tes1',
       'tes1',
-      'tes1',
     ];
 
     return GesbukUserScaffold(
       appBarTitle: 'My Event',
-      body: Column(
-          children: [const Text('Event Screen'), _buildEventCard(context)]),
+      body: Column(children: [
+        const Text('Event Screen'),
+        _buildEventCard(context),
+      ]),
       bottomMenuIndex: 1,
     );
   }
