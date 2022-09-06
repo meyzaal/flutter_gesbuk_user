@@ -8,16 +8,17 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GesbukUserScaffold(
-      // appBarTitle: 'Profil',
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: MediaQuery.of(context).padding.top + 8.0),
+            SizedBox(height: MediaQuery.of(context).padding.top),
             Container(
+              margin: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.sidePadding, vertical: 16.0),
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              height: 168.0,
+              height: AppSizes.baseSize * 15,
               decoration: const BoxDecoration(
                   color: AppColors.mainColor,
                   gradient: LinearGradient(
