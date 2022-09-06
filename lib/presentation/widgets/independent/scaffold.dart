@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_gesbuk_user/app/config/theme.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/independent/bottom_menu.dart';
 
 class GesbukUserScaffold extends StatelessWidget {
@@ -35,7 +35,11 @@ class GesbukUserScaffold extends StatelessWidget {
                   : null,
             )
           : null,
-      body: body,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: AppSizes.sidePadding, vertical: 8.0),
+        child: body,
+      ),
       bottomNavigationBar: bottomMenuIndex != null
           ? GesbukUserBottomMenu(bottomMenuIndex!)
           : null,

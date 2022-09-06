@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gesbuk_user/app/config/theme.dart';
 import 'package:get/get.dart';
 
 class GesbukUserBottomMenu extends StatelessWidget {
@@ -7,7 +8,7 @@ class GesbukUserBottomMenu extends StatelessWidget {
   const GesbukUserBottomMenu(this.menuIndex, {super.key});
 
   Color colorByIndex(int index) {
-    return index == menuIndex ? Colors.blue : Colors.black26;
+    return index == menuIndex ? AppColors.mainColor : Colors.black26;
   }
 
   BottomNavigationBarItem getItem(String title, IconData iconData, int index) {
