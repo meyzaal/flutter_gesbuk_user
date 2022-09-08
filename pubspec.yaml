@@ -38,6 +38,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_native_splash: ^2.2.8
   get: ^4.6.5
+  firebase_auth: ^3.7.0
+  firebase_core: ^1.21.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

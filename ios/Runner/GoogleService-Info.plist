@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>387202563418-uc05c8qs1tfm5fba1lumb0deuab855uh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.387202563418-uc05c8qs1tfm5fba1lumb0deuab855uh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB4UaRrePlWB1VIqH5GqsqUSome4NVMJWk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>387202563418</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.flutterGesbukUser</string>
+	<key>PROJECT_ID</key>
+	<string>gesbuk-58f74</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gesbuk-58f74.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:387202563418:ios:51eca7d4dd44745aed8763</string>
+</dict>
+</plist>

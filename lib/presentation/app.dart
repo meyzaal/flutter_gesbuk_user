@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/config/pages.dart';
-import 'package:flutter_gesbuk_user/app/config/theme.dart';
+import 'package:flutter_gesbuk_user/app/navigation/pages.dart';
+import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 class App extends StatelessWidget {

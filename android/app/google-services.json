@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "387202563418",
+    "project_id": "gesbuk-58f74",
+    "storage_bucket": "gesbuk-58f74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387202563418:android:0c4d5d132a9d6e40ed8763",
+        "android_client_info": {
+          "package_name": "com.example.flutter_gesbuk_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387202563418-icgfplqlpnsvshgptjua21mel421529f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6boW3_p-wkrjUvCOFuk5W47_MastSPqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387202563418-icgfplqlpnsvshgptjua21mel421529f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "387202563418-uc05c8qs1tfm5fba1lumb0deuab855uh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterGesbukUser"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/config/theme.dart';
+import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(
                   horizontal: AppSizes.sidePadding, vertical: 16.0),
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.only(left: 16.0),
               height: AppSizes.baseSize * 15,
               decoration: const BoxDecoration(
                   color: AppColors.mainColor,
@@ -60,6 +60,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: AppColors.white,
                                       fontWeight: FontWeight.w600),
                             ),
+                            const SizedBox(height: AppSizes.linePadding),
                             Text(
                               '+62089512340987',
                               style: Theme.of(context)
@@ -71,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
                               'almayza17@gmail.com',
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2
+                                  .subtitle1
                                   ?.apply(color: AppColors.white),
                             ),
                           ],
@@ -80,13 +81,16 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                      top: 24.0,
+                      top: 16.0,
                       right: 0,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // _successDialog();
+                        },
                         icon: const Icon(
                           Icons.edit_rounded,
                           color: AppColors.white,
+                          size: 16.0,
                         ),
                       ))
                 ],

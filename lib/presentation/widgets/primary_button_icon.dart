@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/config/theme.dart';
+import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 
-class GesbukUserSecondaryButtonIcon extends StatelessWidget {
+class GesbukUserPrimaryButtonIcon extends StatelessWidget {
   final String label;
   final IconData icon;
   final void Function() onPressed;
 
-  const GesbukUserSecondaryButtonIcon({
+  const GesbukUserPrimaryButtonIcon({
     Key? key,
     required this.label,
     required this.icon,
@@ -17,10 +17,9 @@ class GesbukUserSecondaryButtonIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: OutlinedButton.icon(
+      child: ElevatedButton.icon(
         onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          side: const BorderSide(color: AppColors.mainColor),
+        style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.buttonRadius),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
+import 'package:flutter_gesbuk_user/presentation/features/event/event_binding.dart';
 import 'package:flutter_gesbuk_user/presentation/features/home/home.dart';
 import 'package:flutter_gesbuk_user/presentation/features/price_list/price_list.dart';
 import 'package:flutter_gesbuk_user/presentation/features/profile/profile.dart';
@@ -17,6 +18,7 @@ class GesbukUserPages {
     GetPage(
         name: GesbukUserRoutes.myEvent,
         page: () => const EventScreen(),
+        binding: EventBinding(),
         transition: Transition.noTransition),
     GetPage(
         name: GesbukUserRoutes.priceList,

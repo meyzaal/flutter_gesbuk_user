@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/config/theme.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/independent/bottom_menu.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 
 class GesbukUserScaffold extends StatelessWidget {
   final String? appBarTitle;

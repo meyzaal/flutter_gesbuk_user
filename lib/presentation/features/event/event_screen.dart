@@ -1,48 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/config/theme.dart';
+import 'package:flutter_gesbuk_user/app/extensions/date.dart';
+import 'package:flutter_gesbuk_user/data/models/event_model.dart';
+import 'package:flutter_gesbuk_user/presentation/features/event/event_controller.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
+import 'package:flutter_gesbuk_user/app/theme/theme.dart';
+import 'package:get/get.dart';
 
-class EventScreen extends StatelessWidget {
+class EventScreen extends GetView<EventController> {
   const EventScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const itemList = [
-      'tes1',
-      'tes1',
-      'tes1',
-      'tes1',
-    ];
-
     return GesbukUserScaffold(
       appBarTitle: 'My Event',
-      body: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.sidePadding, vertical: AppSizes.baseSize),
-          child: Column(
-            children: <Widget>[
-              const Text('HEADER'),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return _buildEventCard(context);
-                },
-                itemCount: itemList.length,
+      body: controller.obx(
+        (data) {
+          return SingleChildScrollView(
+            physics: const ScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.sidePadding,
+                  vertical: AppSizes.baseSize),
+              child: Column(
+                children: <Widget>[
+                  const Text('HEADER'),
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return _buildEventCard(context, index, data);
+                    },
+                    itemCount: data?.length,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          );
+        },
+        onLoading: const Center(child: CircularProgressIndicator.adaptive()),
+        onError: (error) => Center(
+          child: Text(error.toString()),
         ),
       ),
       bottomMenuIndex: 1,
     );
   }
 
-  Widget _buildEventCard(BuildContext context) {
+  Widget _buildEventCard(
+      BuildContext context, int index, List<EventModel>? data) {
     const imageUrl =
-        'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80';
+        // 'https://images.unsplash.com/photo-1553915632-175f60dd8e36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
+        // 'https://images.unsplash.com/photo-1562967005-a3c85514d3e9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
+        // 'https://images.unsplash.com/photo-1544531585-f14f463149ec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80';
+        // 'https://images.unsplash.com/photo-1565035010268-a3816f98589a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80';
+        'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80';
 
     return Container(
       height: AppSizes.baseSize * 32,
@@ -52,9 +63,10 @@ class EventScreen extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       decoration: BoxDecoration(
         color: Colors.transparent,
-        image: const DecorationImage(
-            image: NetworkImage(imageUrl), fit: BoxFit.cover),
-        borderRadius: BorderRadius.circular(32.0),
+        image: DecorationImage(
+            image: NetworkImage(data?[index].imageUrl ?? imageUrl),
+            fit: BoxFit.cover),
+        borderRadius: BorderRadius.circular(AppSizes.widgetSidePadding),
         boxShadow: const [
           BoxShadow(
             color: AppColors.lightGray,
@@ -63,11 +75,12 @@ class EventScreen extends StatelessWidget {
           )
         ],
       ),
-      child: _buildEventInfoCard(context),
+      child: _buildEventInfoCard(context, index, data),
     );
   }
 
-  Opacity _buildEventInfoCard(BuildContext context) {
+  Opacity _buildEventInfoCard(
+      BuildContext context, int index, List<EventModel>? data) {
     return Opacity(
       opacity: 0.9,
       child: Container(
@@ -84,7 +97,7 @@ class EventScreen extends StatelessWidget {
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
-          borderRadius: BorderRadius.circular(24.0),
+          borderRadius: BorderRadius.circular(AppSizes.widgetBorderRadius / 2),
           boxShadow: const [
             BoxShadow(
               color: AppColors.darkGray,
@@ -95,7 +108,7 @@ class EventScreen extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Expanded(
-              child: _buildEventInfo(context),
+              child: _buildEventInfo(context, index, data),
             ),
             Container(
               height: double.infinity,
@@ -103,33 +116,46 @@ class EventScreen extends StatelessWidget {
               color: AppColors.secondaryColor,
             ),
             const SizedBox(width: 16.0),
-            _buildEventDate(context)
+            _buildEventDate(context, index, data)
           ],
         ),
       ),
     );
   }
 
-  Column _buildEventDate(BuildContext context) {
+  Column _buildEventDate(
+      BuildContext context, int index, List<EventModel>? data) {
+    final date = data?[index].startDate;
+    String? dateDay;
+    String? dateMonth;
+    String? dateYear;
+
+    if (date != null) {
+      dateDay = ParseDate.returnDay(date);
+      dateMonth = ParseDate.returnMonth(date);
+      dateYear = ParseDate.returnYear(date);
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Nov',
+          dateMonth ?? '',
           style: Theme.of(context).textTheme.subtitle1,
         ),
-        Text('11', style: Theme.of(context).textTheme.headline6),
-        Text('2022', style: Theme.of(context).textTheme.subtitle1),
+        Text(dateDay ?? '', style: Theme.of(context).textTheme.headline6),
+        Text(dateYear ?? '', style: Theme.of(context).textTheme.subtitle1),
       ],
     );
   }
 
-  Column _buildEventInfo(BuildContext context) {
+  Column _buildEventInfo(
+      BuildContext context, int index, List<EventModel>? data) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Event Name',
+        Text(data?[index].name ?? '',
             style: Theme.of(context)
                 .textTheme
                 .subtitle1
@@ -141,7 +167,8 @@ class EventScreen extends StatelessWidget {
               size: 16.0,
             ),
             const SizedBox(width: AppSizes.baseSize),
-            Text('Location', style: Theme.of(context).textTheme.bodyText2),
+            Text(data?[index].location ?? '',
+                style: Theme.of(context).textTheme.bodyText2),
           ],
         ),
         Row(
@@ -152,11 +179,11 @@ class EventScreen extends StatelessWidget {
             ),
             const SizedBox(width: AppSizes.baseSize),
             Text(
-              'Guest Count',
+              '${data?[index].guestList?.length} Guest',
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ],
-        )
+        ),
       ],
     );
   }

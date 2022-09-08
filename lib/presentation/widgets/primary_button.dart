@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/config/theme.dart';
+import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 
 class GesbukUserPrimaryButton extends StatelessWidget {
   final String label;
