@@ -7,4 +7,5 @@ abstract class GesbukUserRoutes {
   static const myEvent = '/my_event';
   static const priceList = '/price_list';
   static const profile = '/profile';
+  static const login = '/login';
 }

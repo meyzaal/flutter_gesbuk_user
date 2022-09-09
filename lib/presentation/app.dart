@@ -11,7 +11,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       theme: GesbukUserTheme.of(context),
       getPages: GesbukUserPages.routes,
-      initialRoute: GesbukUserRoutes.home,
+      initialRoute: GesbukUserRoutes.login,
     );
   }
 }

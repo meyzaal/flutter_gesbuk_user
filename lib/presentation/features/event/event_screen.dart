@@ -132,7 +132,7 @@ class EventScreen extends GetView<EventController> {
 
     if (date != null) {
       dateDay = ParseDate.returnDay(date);
-      dateMonth = ParseDate.returnMonth(date);
+      dateMonth = ParseDate.returnMonth(date).substring(0, 3);
       dateYear = ParseDate.returnYear(date);
     }
 

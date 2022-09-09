@@ -1,6 +1,8 @@
 import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
 import 'package:flutter_gesbuk_user/presentation/features/event/event_binding.dart';
 import 'package:flutter_gesbuk_user/presentation/features/home/home.dart';
+import 'package:flutter_gesbuk_user/presentation/features/login/auth_binding.dart';
+import 'package:flutter_gesbuk_user/presentation/features/login/login_screen.dart';
 import 'package:flutter_gesbuk_user/presentation/features/price_list/price_list.dart';
 import 'package:flutter_gesbuk_user/presentation/features/profile/profile.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,11 @@ class GesbukUserPages {
     GetPage(
         name: GesbukUserRoutes.home,
         page: () => const HomeScreen(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: GesbukUserRoutes.login,
+        binding: AuthBinding(),
+        page: () => const LoginScreen(),
         transition: Transition.noTransition),
     GetPage(
         name: GesbukUserRoutes.myEvent,
