@@ -37,16 +37,16 @@ class GesbukUserBottomMenu extends StatelessWidget {
       onTap: (value) {
         switch (value) {
           case 0:
-            Get.offNamed('/');
+            Get.offNamed('/home');
             break;
           case 1:
-            Get.offNamed('/my_event');
+            Get.toNamed('/my_event');
             break;
           case 2:
-            Get.offNamed('/price_list');
+            Get.toNamed('/price_list');
             break;
           case 3:
-            Get.offNamed('/profile');
+            Get.toNamed('/profile');
             break;
         }
       },

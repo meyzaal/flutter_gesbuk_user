@@ -8,6 +8,7 @@ class GesbukUserScaffold extends StatelessWidget {
   final int? bottomMenuIndex;
   final List<String>? tabBarList;
   final TabController? tabController;
+  final Widget? bottomNavBar;
 
   const GesbukUserScaffold(
       {super.key,
@@ -16,7 +17,8 @@ class GesbukUserScaffold extends StatelessWidget {
       this.backButton,
       this.bottomMenuIndex,
       this.tabBarList,
-      this.tabController});
+      this.tabController,
+      this.bottomNavBar});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +35,30 @@ class GesbukUserScaffold extends StatelessWidget {
                     )
                   : null,
             )
-          : null,
+          : BlankAppBar(
+              context: context,
+            ),
       body: body,
       bottomNavigationBar: bottomMenuIndex != null
           ? GesbukUserBottomMenu(bottomMenuIndex!)
-          : null,
+          : bottomNavBar,
     );
   }
+}
+
+class BlankAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const BlankAppBar({
+    Key? key,
+    required this.context,
+  }) : super(key: key);
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(0);
 }

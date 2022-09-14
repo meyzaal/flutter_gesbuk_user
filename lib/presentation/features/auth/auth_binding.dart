@@ -1,4 +1,4 @@
-import 'package:flutter_gesbuk_user/presentation/features/login/auth_controller.dart';
+import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
 import 'package:get/get.dart';
 
 class AuthBinding implements Bindings {

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GesbukUserPrimaryButtonIcon extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final IconData? icon;
+  final String? imagePath;
+  final bool isImageIcon;
   final void Function() onPressed;
 
   const GesbukUserPrimaryButtonIcon({
     Key? key,
     required this.label,
-    required this.icon,
+    this.icon,
     required this.onPressed,
+    required this.isImageIcon,
+    this.imagePath,
   }) : super(key: key);
 
   @override
@@ -25,7 +30,13 @@ class GesbukUserPrimaryButtonIcon extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(AppSizes.sidePadding),
         ),
-        icon: Icon(icon),
+        icon: isImageIcon
+            ? SvgPicture.asset(
+                'assets/icons/$imagePath',
+                color: Colors.white,
+                width: 24.0,
+              )
+            : Icon(icon),
         label: Text(label),
       ),
     );

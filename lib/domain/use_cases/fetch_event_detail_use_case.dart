@@ -1,4 +1,3 @@
-import 'package:flutter_gesbuk_user/app/core/usecases.dart/no_param_use_case.dart';
 import 'package:flutter_gesbuk_user/app/core/usecases.dart/param_use_case.dart';
 import 'package:flutter_gesbuk_user/data/models/event_model.dart';
 import 'package:flutter_gesbuk_user/domain/repositories/event_repository.dart';

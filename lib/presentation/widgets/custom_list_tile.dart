@@ -25,7 +25,7 @@ class GesbukUserListTile extends StatelessWidget {
           side: const BorderSide(
               style: BorderStyle.solid, width: 0.4, color: Colors.black12),
           borderRadius: BorderRadius.circular(AppSizes.widgetBorderRadius)),
-      leading: const Icon(Icons.label_rounded),
+      leading: leading,
       title: title,
       subtitle: subtitle,
       trailing: trailing,

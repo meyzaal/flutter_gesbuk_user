@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gesbuk_user/app/config/firebase_options.dart';
 import 'package:flutter_gesbuk_user/presentation/app.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 // import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
@@ -17,5 +18,5 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(const App());
+  runApp(App());
 }
