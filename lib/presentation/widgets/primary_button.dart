@@ -3,18 +3,20 @@ import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 
 class GesbukUserPrimaryButton extends StatelessWidget {
   final String label;
+  final bool isExpand;
   final void Function() onPressed;
 
   const GesbukUserPrimaryButton({
     Key? key,
     required this.label,
     required this.onPressed,
+    this.isExpand = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: isExpand ? double.infinity : null,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

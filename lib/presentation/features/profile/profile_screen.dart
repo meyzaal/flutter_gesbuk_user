@@ -14,6 +14,29 @@ class ProfileScreen extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     List<GesbukUserListTile> buttonList = [
       GesbukUserListTile(
+          leading: Obx(() => controller.isDark.value
+              ? const Icon(Icons.dark_mode_rounded)
+              : const Icon(Icons.light_mode_rounded)),
+          title: Text(
+            'Tema',
+            style: Theme.of(context).textTheme.button,
+          ),
+          subtitle: Obx(
+            () => controller.isDark.value
+                ? Text('Ubah tema ke terang',
+                    style: Theme.of(context).textTheme.caption)
+                : Text('Ubah tema ke gelap',
+                    style: Theme.of(context).textTheme.caption),
+          ),
+          trailing: Obx(
+            () => Switch(
+                activeColor: AppColors.mainColor,
+                value: controller.isDark.value,
+                onChanged: (bool val) {
+                  controller.changeTheme(context, val);
+                }),
+          )),
+      GesbukUserListTile(
         leading: const Icon(Icons.info_rounded),
         title: Text(
           'Tentang Gesbuk',
@@ -139,9 +162,7 @@ class ProfileScreen extends GetView<ProfileController> {
               top: 16.0,
               right: 0,
               child: IconButton(
-                onPressed: () {
-                  // _successDialog();
-                },
+                onPressed: () => Get.toNamed('/edit_profile'),
                 icon: const Icon(
                   Icons.edit_rounded,
                   color: AppColors.white,

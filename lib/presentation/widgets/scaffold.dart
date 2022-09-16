@@ -9,6 +9,7 @@ class GesbukUserScaffold extends StatelessWidget {
   final List<String>? tabBarList;
   final TabController? tabController;
   final Widget? bottomNavBar;
+  final Widget? floatingActionButton;
 
   const GesbukUserScaffold(
       {super.key,
@@ -18,7 +19,8 @@ class GesbukUserScaffold extends StatelessWidget {
       this.bottomMenuIndex,
       this.tabBarList,
       this.tabController,
-      this.bottomNavBar});
+      this.bottomNavBar,
+      this.floatingActionButton});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class GesbukUserScaffold extends StatelessWidget {
       bottomNavigationBar: bottomMenuIndex != null
           ? GesbukUserBottomMenu(bottomMenuIndex!)
           : bottomNavBar,
+      floatingActionButton: floatingActionButton,
     );
   }
 }

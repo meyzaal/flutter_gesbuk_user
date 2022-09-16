@@ -1,5 +1,7 @@
+import 'package:flutter_gesbuk_user/presentation/features/edit_profile/edit_profile_screen.dart';
 import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
 import 'package:flutter_gesbuk_user/presentation/features/event/event_binding.dart';
+import 'package:flutter_gesbuk_user/presentation/features/event_detail/event_detail_screen.dart';
 import 'package:flutter_gesbuk_user/presentation/features/home/home.dart';
 import 'package:flutter_gesbuk_user/presentation/features/home/home_binding.dart';
 import 'package:flutter_gesbuk_user/presentation/features/info/info_screen.dart';
@@ -32,6 +34,9 @@ class GesbukUserPages {
         binding: EventBinding(),
         transition: Transition.noTransition),
     GetPage(
+        name: GesbukUserRoutes.eventDetail,
+        page: () => const EventDetailScreen()),
+    GetPage(
         name: GesbukUserRoutes.priceList,
         page: () => const PriceListScreen(),
         transition: Transition.noTransition),
@@ -43,6 +48,10 @@ class GesbukUserPages {
     GetPage(
       name: GesbukUserRoutes.info,
       page: () => const InfoScreen(),
+    ),
+    GetPage(
+      name: GesbukUserRoutes.editProfile,
+      page: () => const EditProfileScreen(),
     ),
   ];
 }

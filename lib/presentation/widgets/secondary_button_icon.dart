@@ -6,6 +6,7 @@ class GesbukUserSecondaryButtonIcon extends StatelessWidget {
   final IconData icon;
   final void Function() onPressed;
   final bool isExpand;
+  final AlignmentGeometry? alignment;
 
   const GesbukUserSecondaryButtonIcon({
     Key? key,
@@ -13,6 +14,7 @@ class GesbukUserSecondaryButtonIcon extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     this.isExpand = false,
+    this.alignment,
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class GesbukUserSecondaryButtonIcon extends StatelessWidget {
       child: OutlinedButton.icon(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
+          alignment: alignment,
           side: const BorderSide(color: AppColors.mainColor),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.buttonRadius),

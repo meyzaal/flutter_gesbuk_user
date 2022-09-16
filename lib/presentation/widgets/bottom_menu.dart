@@ -33,20 +33,21 @@ class GesbukUserBottomMenu extends StatelessWidget {
       items: menuItems,
       type: BottomNavigationBarType.fixed,
       currentIndex: menuIndex,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.backgroundLight,
+      elevation: 16.0,
       onTap: (value) {
         switch (value) {
           case 0:
             Get.offNamed('/home');
             break;
           case 1:
-            Get.toNamed('/my_event');
+            Get.offNamed('/my_event');
             break;
           case 2:
-            Get.toNamed('/price_list');
+            Get.offNamed('/price_list');
             break;
           case 3:
-            Get.toNamed('/profile');
+            Get.offNamed('/profile');
             break;
         }
       },
