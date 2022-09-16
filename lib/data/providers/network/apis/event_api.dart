@@ -24,9 +24,7 @@ class EventAPI implements APIRequestRepresentable {
   Map<String, String>? get headers => null;
 
   @override
-  HTTPMethod get method {
-    return HTTPMethod.get;
-  }
+  HTTPMethod get method => HTTPMethod.get;
 
   @override
   String get path {
@@ -42,9 +40,7 @@ class EventAPI implements APIRequestRepresentable {
   Map<String, String>? get query => null;
 
   @override
-  Future request() {
-    return APIProvider.instance.request(this);
-  }
+  Future request() => APIProvider.instance.request(this);
 
   @override
   String get url => endpoint + path;

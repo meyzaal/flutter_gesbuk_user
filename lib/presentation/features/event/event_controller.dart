@@ -15,6 +15,7 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
 
   void formValidation(BuildContext context) {
     if (formKey.currentState!.validate()) {
+      Get.back();
       createEventDialog(context);
     }
   }
@@ -50,7 +51,6 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
           onClosed: () {
             change(null, status: RxStatus.loading());
             Get.back();
-            Get.back();
             keyController.text = '';
             Get.find<EventController>().onInit();
           },
@@ -62,7 +62,6 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
   @override
   void onInit() {
     getEvent();
-    print('on init');
     super.onInit();
   }
 

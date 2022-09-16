@@ -57,7 +57,6 @@ class AuthController extends GetxController with StateMixin {
       }
     } on FirebaseAuthException catch (firebaseError) {
       signOut();
-      // change()
       Get.defaultDialog(middleText: firebaseError.toString(), title: 'Error!');
     } catch (error) {
       signOut();
@@ -89,8 +88,6 @@ class AuthController extends GetxController with StateMixin {
     try {
       await PackageInfo.fromPlatform()
           .then((value) => appVersion.value = value.version);
-
-      print(appVersion.value);
     } catch (e) {
       print(e.toString());
     }

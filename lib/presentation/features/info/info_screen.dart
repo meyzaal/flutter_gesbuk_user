@@ -19,7 +19,7 @@ class InfoScreen extends StatelessWidget {
             Text('Gesbuk Mobile Application',
                 style: Theme.of(context).textTheme.headline4),
             const SizedBox(height: 16.0),
-            Text('versi',
+            Text('version',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1
@@ -27,7 +27,7 @@ class InfoScreen extends StatelessWidget {
             Text(appVersion, style: Theme.of(context).textTheme.headline6),
             const SizedBox(height: 16.0),
             Text(
-                'Gesbuk dan logo Gesbuk merupakan merek dagang Gesbuk. Hak Cipta dilindungi undang-undang',
+                'Gesbuk dan logo Gesbuk merupakan merek dagang Gesbuk. Hak Cipta dilindungi undang-undang.',
                 style: Theme.of(context).textTheme.subtitle1),
             const SizedBox(height: 8.0),
             Text(
@@ -48,11 +48,11 @@ class InfoScreen extends StatelessWidget {
                     ?.copyWith(color: Colors.black38)),
             Text('Meyza Ulil Albab',
                 style: Theme.of(context).textTheme.headline6),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 24.0),
             RichText(
                 text: TextSpan(children: [
               TextSpan(
-                  text: 'Illustration by',
+                  text: 'All illustration by',
                   style: Theme.of(context).textTheme.bodyText2),
               TextSpan(
                   text: ' unDraw',
@@ -60,7 +60,20 @@ class InfoScreen extends StatelessWidget {
                       .textTheme
                       .bodyText1
                       ?.copyWith(fontFamily: 'GlacialIndifference'))
-            ]))
+            ])),
+            // const SizedBox(height: 8.0),
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: 'All images by',
+                  style: Theme.of(context).textTheme.bodyText2),
+              TextSpan(
+                  text: ' Unsplash',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontFamily: 'UnB'))
+            ])),
           ],
         ),
       ),

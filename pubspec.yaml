@@ -154,6 +154,10 @@ flutter:
       fonts:
         - asset: assets/fonts/GlacialIndifference-Bold.otf
 
+    - family: UnB
+      fonts:
+        - asset: assets/fonts/unb_pro_bold.otf
+
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
