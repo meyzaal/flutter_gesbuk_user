@@ -5,14 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 enum AlertType { success, info, failed }
 
 class GesbukUserAlertDialog extends StatelessWidget {
-  final AlertType alertType;
+  final AlertType? alertType;
   final String? title;
   final String? middleText;
   final void Function() onClosed;
 
   const GesbukUserAlertDialog({
     Key? key,
-    required this.alertType,
+    this.alertType,
     this.middleText,
     required this.onClosed,
     this.title,
@@ -26,7 +26,11 @@ class GesbukUserAlertDialog extends StatelessWidget {
       case AlertType.success:
         image = 'assets/images/undraw_order_confirmed_re_g0if.svg';
         break;
+      case AlertType.failed:
+        image = 'assets/images/undraw_warning_re_eoyh.svg';
+        break;
       default:
+        image = null;
     }
 
     return AlertDialog(
@@ -41,17 +45,6 @@ class GesbukUserAlertDialog extends StatelessWidget {
                     width: AppSizes.baseSize * 24,
                   )
                 : const SizedBox(),
-            // icon != null
-            //     ? CircleAvatar(
-            //         radius: AppSizes.imageRadius * 8,
-            //         backgroundColor: AppColors.green,
-            //         child: Icon(
-            //           icon,
-            //           color: color,
-            //           size: AppSizes.baseSize * 8,
-            //         ),
-            //       )
-            //     : const SizedBox(),
             const SizedBox(height: 24.0),
             title != null
                 ? Text(title ?? '',

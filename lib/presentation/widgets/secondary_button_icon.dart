@@ -20,7 +20,7 @@ class GesbukUserSecondaryButtonIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: isExpand ? double.infinity : null,
+      width: isExpand ? MediaQuery.of(context).size.width : null,
       child: OutlinedButton.icon(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(

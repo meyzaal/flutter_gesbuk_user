@@ -1,15 +1,24 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gesbuk_user/app/services/local_storage.dart';
+import 'package:flutter_gesbuk_user/data/models/user_model.dart';
+import 'package:flutter_gesbuk_user/domain/use_cases/sign_in_use_case.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class AuthController extends GetxController with StateMixin {
+class AuthController extends GetxController with StateMixin<GesbukUserModel?> {
+  final LocalStorageService storage = Get.find<LocalStorageService>();
+  final SignInUseCase _signInUseCase = Get.find<SignInUseCase>();
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Stream<User?> get streamAuthStatus => _firebaseAuth.authStateChanges();
+  final context = Get.context!;
+
   PackageInfo? packageInfo;
 
   RxInt indicatorIndex = 0.obs;
@@ -41,6 +50,8 @@ class AuthController extends GetxController with StateMixin {
         // Get id token
         String? token = await user.getIdToken();
 
+        storage.token = token;
+
         // Print firebase token for testing postman
         print('===========FIREBASE TOKEN START===========');
         while (token!.isNotEmpty) {
@@ -51,32 +62,49 @@ class AuthController extends GetxController with StateMixin {
         }
         print('===========FIREBASE TOKEN END===========');
 
-        // change(null, status: RxStatus.success());
+        // backend validation
+        final result = await _signInUseCase.execute();
 
-        Get.toNamed('/home');
+        if (result != null) {
+          change(null, status: RxStatus.success());
+
+          Get.offNamed('/home');
+        }
       }
     } on FirebaseAuthException catch (firebaseError) {
-      signOut();
-      Get.defaultDialog(middleText: firebaseError.toString(), title: 'Error!');
+      
+      signOut(error: firebaseError.toString());
     } catch (error) {
-      signOut();
+      // error dismiss google account
       if (error.toString().contains(
           "Failed assertion: line 43 pos 12: 'accessToken != null || idToken != null': At least one of ID token and access token is required")) {
+        change(null, status: RxStatus.success());
         return;
       }
-      Get.defaultDialog(middleText: error.toString(), title: 'Error!');
+
+      signOut(error: error.toString());
     }
   }
 
-  signOut() {
+  signOut({String? error}) {
     try {
+      if (error != null) {
+        GesbukUserSnackBar.showSnackBar(
+            context, error, Colors.red.shade400, 'tutup');
+      }
+
+      // remove auth
       _firebaseAuth.signOut();
       _googleSignIn.signOut();
 
+      // remove storage
+      storage.token = null;
+
+      // route to login page
       Get.offAllNamed('/login');
-      change(null, status: RxStatus.success());
-    } catch (e) {
-      change(null, status: RxStatus.error(e.toString()));
+    } catch (error) {
+      GesbukUserSnackBar.showSnackBar(
+          context, error.toString(), Colors.red.shade400, 'tutup');
     }
   }
 
@@ -93,11 +121,23 @@ class AuthController extends GetxController with StateMixin {
     }
   }
 
+  setFreshToken() async {
+    final User? user = _firebaseAuth.currentUser;
+
+    if (user != null) {
+      final String freshToken = await user.getIdToken();
+
+      storage.token = freshToken;
+    } else {
+      signOut(error: 'Sesi anda sudah habis');
+    }
+  }
+
   @override
-  void onReady() {
+  void onInit() {
     change(null, status: RxStatus.success());
     getPackageInfo();
-    super.onReady();
+    super.onInit();
   }
 
   // DateTime? currentBackPressTime;

@@ -8,6 +8,7 @@ class Guest {
     this.v,
     this.createdAt,
     this.updatedAt,
+    this.checkInTime,
   });
 
   String? id;
@@ -18,4 +19,5 @@ class Guest {
   int? v;
   DateTime? createdAt;
   DateTime? updatedAt;
+    DateTime? checkInTime;
 }

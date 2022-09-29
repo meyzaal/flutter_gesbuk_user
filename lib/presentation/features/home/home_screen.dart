@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/presentation/features/home/home_controller.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/coming_soon_page.dart';
+import 'package:flutter_gesbuk_user/presentation/features/profile/profile.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
@@ -9,8 +9,23 @@ class HomeScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return const GesbukUserScaffold(
-      body: ComingSoonPage(),
+    final ProfileController profileController = Get.find<ProfileController>();
+
+    return GesbukUserScaffold(
+      body: profileController.obx(
+        (data) {
+          return const ComingSoonPage();
+        },
+        onLoading: const Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
+        onEmpty: const Center(
+          child: Text('Data kosong'),
+        ),
+        onError: (error) => Center(
+          child: Text(error.toString()),
+        ),
+      ),
       bottomMenuIndex: 0,
     );
   }

@@ -99,6 +99,7 @@ class LoginScreen extends GetView<AuthController> {
                 ),
               ),
             ),
+            
             const SizedBox(height: 8.0),
             Obx(() => Container(
                   alignment: Alignment.center,

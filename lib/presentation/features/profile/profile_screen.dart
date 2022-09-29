@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
-import 'package:flutter_gesbuk_user/presentation/features/profile/profile_controller.dart';
+import 'package:flutter_gesbuk_user/presentation/features/profile/profile.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
@@ -64,6 +64,7 @@ class ProfileScreen extends GetView<ProfileController> {
     ];
 
     return GesbukUserScaffold(
+      blankAppBar: false,
       body: Column(
         children: <Widget>[
           _buildProfileCard(context),
@@ -94,83 +95,109 @@ class ProfileScreen extends GetView<ProfileController> {
     );
   }
 
-  Container _buildProfileCard(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-          horizontal: AppSizes.sidePadding, vertical: 16.0),
-      width: double.infinity,
-      padding: const EdgeInsets.only(left: 16.0),
-      height: AppSizes.baseSize * 15,
-      decoration: const BoxDecoration(
-          color: AppColors.mainColor,
-          gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              stops: [
-                0.0,
-                0.6,
-                0.9
+  _buildProfileCard(BuildContext context) {
+    return controller.obx((data) {
+      String? phone = data?.phone;
+      String? finalPhone =
+          phone != null ? '${phone.substring(0, phone.length - 5)}*****' : null;
+
+      return ProfileCardBackground(
+        child: Stack(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundColor: AppColors.background,
+                  radius: 32.0,
+                  child: CircleAvatar(
+                    backgroundImage: data?.picture != null
+                        ? NetworkImage(data?.picture ?? '')
+                        : null,
+                    backgroundColor: AppColors.background,
+                    radius: 31.0,
+                  ),
+                ),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        data?.name ?? '',
+                        style: Theme.of(context).textTheme.headline6?.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: AppSizes.linePadding),
+                      data?.phone != null
+                          ? Text(
+                              finalPhone ?? '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.apply(color: AppColors.white),
+                            )
+                          : const SizedBox(),
+                      Text(
+                        data?.email ?? '',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            ?.apply(color: AppColors.white),
+                      ),
+                    ],
+                  ),
+                ),
               ],
-              colors: [
-                AppColors.lightBlue,
-                AppColors.mainColor,
-                AppColors.secondaryColor
-              ]),
-          borderRadius:
-              BorderRadius.all(Radius.circular(AppSizes.widgetBorderRadius))),
-      child: Stack(
-        children: <Widget>[
-          Row(
+            ),
+            Positioned(
+                top: 0.0,
+                right: 0,
+                child: IconButton(
+                  onPressed: () => Get.toNamed('/edit_profile'),
+                  icon: const Icon(
+                    Icons.edit_rounded,
+                    color: AppColors.white,
+                    size: 16.0,
+                  ),
+                ))
+          ],
+        ),
+      );
+    },
+        onLoading: ProfileCardBackground(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const CircleAvatar(
-                backgroundColor: AppColors.background,
-                radius: 32.0,
-              ),
+              const ShimmerLoading(
+                  baseColor: Color.fromARGB(38, 255, 255, 255),
+                  type: ShimmerType.circle,
+                  radius: 32.0),
               const SizedBox(width: 16.0),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'Meyza Ulil Albab',
-                      style: Theme.of(context).textTheme.headline6?.copyWith(
-                          color: AppColors.white, fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: AppSizes.linePadding),
-                    Text(
-                      '+62089512340987',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          ?.apply(color: AppColors.white),
-                    ),
-                    Text(
-                      'almayza17@gmail.com',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          ?.apply(color: AppColors.white),
+                    ShimmerLoading(
+                        baseColor: const Color.fromARGB(38, 255, 255, 255),
+                        highlightColor: AppColors.lightBlue,
+                        height: Theme.of(context).textTheme.headline6?.fontSize,
+                        width: 200),
+                    const SizedBox(height: 14.0),
+                    ShimmerLoading(
+                      baseColor: const Color.fromARGB(38, 255, 255, 255),
+                      highlightColor: AppColors.lightBlue,
+                      height: Theme.of(context).textTheme.subtitle1?.fontSize,
+                      width: 160,
                     ),
                   ],
                 ),
               ),
             ],
           ),
-          Positioned(
-              top: 16.0,
-              right: 0,
-              child: IconButton(
-                onPressed: () => Get.toNamed('/edit_profile'),
-                icon: const Icon(
-                  Icons.edit_rounded,
-                  color: AppColors.white,
-                  size: 16.0,
-                ),
-              ))
-        ],
-      ),
-    );
+        ));
   }
 }

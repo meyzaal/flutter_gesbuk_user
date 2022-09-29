@@ -1,45 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/theme/theme.dart';
+import 'package:flutter_gesbuk_user/data/models/user_model.dart';
+import 'package:flutter_gesbuk_user/domain/use_cases/fetch_user_use_case.dart';
+import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/snack_bar.dart';
 import 'package:get/get.dart';
 
-class ProfileController extends GetxController {
+class ProfileController extends GetxController
+    with StateMixin<GesbukUserModel?> {
+  final FetchUserUseCase _fetchUserUseCase;
+
+  ProfileController(this._fetchUserUseCase);
+
+  final AuthController authController = Get.find<AuthController>();
+
   RxBool isDark = false.obs;
 
-  changeTheme(BuildContext context, bool state) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    isDark.value = state;
-
-    SnackBar snackBar = SnackBar(
-      content: const Text('Feature not yet available'),
-      backgroundColor: Colors.red.shade400,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.baseSize)),
-      behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.all(AppSizes.widgetSidePadding),
-      action: SnackBarAction(
-          label: 'tutup',
-          textColor: const Color.fromARGB(255, 216, 216, 216),
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          }),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    // Get.showSnackbar(const GetSnackBar(
-    //     title: 'Sorry', message: 'Feature not yet available'));
-
-    // Future.delayed(const Duration(seconds: 3));
-    // Get.closeCurrentSnackbar();
+  getUserInfo() async {
+    try {
+      final result = await _fetchUserUseCase.execute();
+      GesbukUserModel? data = result;
+      if (data?.role == 'admin') {
+        return authController.signOut(
+            error: 'Forbidden, hanya user yang bisa melanjutkan');
+      }
+      change(data, status: RxStatus.success());
+    } catch (error) {
+      if (error.toString().contains('Firebase ID token has expired')) {
+        await authController.setFreshToken();
+        Get.find<ProfileController>().onInit();
+      }
+      change(null, status: RxStatus.error(error.toString()));
+    }
   }
 
-  // Future<void> _successDialog() async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return const GesbukUserAlertDialog(alertType: AlertType.success);
-  //     },
-  //   );
-  // }
+  changeTheme(BuildContext context, bool state) {
+    isDark.value = state;
+    GesbukUserSnackBar.showSnackBar(context, 'This feature not yet available',
+        Colors.red.shade400, 'tutup');
+  }
+
+  @override
+  void onInit() {
+    getUserInfo();
+    super.onInit();
+  }
 }

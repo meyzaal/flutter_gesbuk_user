@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/app/extensions/date.dart';
 import 'package:flutter_gesbuk_user/data/models/event_model.dart';
-import 'package:flutter_gesbuk_user/presentation/features/event/event_controller.dart';
+import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,88 +12,130 @@ class EventScreen extends GetView<EventController> {
 
   @override
   Widget build(BuildContext context) {
-    return GesbukUserScaffold(
-      appBarTitle: 'My Event',
-      body: controller.obx(
-        (data) {
-          return SingleChildScrollView(
+    return Stack(
+      children: <Widget>[
+        GesbukUserScaffold(
+          appBarTitle: 'My Event',
+          body: SingleChildScrollView(
             physics: const ScrollPhysics(),
             child: Column(
               children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.all(AppSizes.sidePadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Buat event',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              ?.copyWith(fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 16.0),
-                      Text(
-                          'Kamu bisa menambahkan event dengan memasukkan kode event yang kamu punya.',
-                          style: Theme.of(context).textTheme.bodyText1),
-                      const SizedBox(height: 8.0),
-                      GesbukUserSecondaryButtonIcon(
-                          label: 'Masukkan kode event',
-                          isExpand: true,
-                          icon: Icons.discount_rounded,
-                          onPressed: () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(
-                                      AppSizes.widgetBorderRadius),
-                                  topRight: Radius.circular(
-                                      AppSizes.widgetBorderRadius),
-                                ),
-                              ),
-                              context: context,
-                              builder: (context) =>
-                                  _buildRedeemBottomSheet(context),
-                            );
-                          }),
-                    ],
+                controller.obx(
+                  (data) {
+                    return Padding(
+                      padding: const EdgeInsets.all(AppSizes.sidePadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Event kamu',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  ?.copyWith(fontWeight: FontWeight.w600)),
+                          const SizedBox(height: 16.0),
+                          ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                  onTap: () => Get.toNamed('/event_detail',
+                                      arguments: data?[index].id),
+                                  child: _buildEventCard(context, index, data));
+                            },
+                            itemCount: data?.length ?? 0,
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const SizedBox(height: 16.0),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  onLoading: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.26,
+                      child: const Center(
+                          child: CircularProgressIndicator.adaptive())),
+                  onEmpty: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(AppSizes.sidePadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        const SizedBox(height: 16.0),
+                        Align(
+                          alignment: Alignment.center,
+                          child: SvgPicture.asset(
+                            'assets/images/undraw_events_re_98ue.svg',
+                            height: AppSizes.baseSize * 16,
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text('Kamu belum ada event.',
+                              style: Theme.of(context).textTheme.bodyText1),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const Divider(thickness: 8.0),
-                Padding(
-                  padding: const EdgeInsets.all(AppSizes.sidePadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text('Event kamu',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              ?.copyWith(fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 16.0),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () => Get.toNamed('/event_detail'),
-                              child: _buildEventCard(context, index, data));
-                        },
-                        itemCount: data?.length,
-                      ),
-                    ],
-                  ),
-                ),
+                _buildRedeemButton(context),
               ],
             ),
-          );
-        },
-        onLoading: const Center(child: CircularProgressIndicator.adaptive()),
-        onError: (error) => Center(
-          child: Text(error.toString()),
+          ),
+          bottomMenuIndex: 1,
         ),
+        Obx(() => controller.isLoading.value == true
+            ? Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black38,
+                child: const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+              )
+            : const SizedBox())
+      ],
+    );
+  }
+
+  Container _buildRedeemButton(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(AppSizes.sidePadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Buat event',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  ?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 16.0),
+          Text(
+              'Kamu bisa menambahkan event dengan memasukkan kode event yang kamu punya.',
+              style: Theme.of(context).textTheme.bodyText1),
+          const SizedBox(height: 8.0),
+          GesbukUserSecondaryButtonIcon(
+              label: 'Masukkan kode event',
+              isExpand: true,
+              icon: Icons.discount_rounded,
+              onPressed: () {
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(AppSizes.widgetBorderRadius),
+                      topRight: Radius.circular(AppSizes.widgetBorderRadius),
+                    ),
+                  ),
+                  context: context,
+                  builder: (context) => _buildRedeemBottomSheet(context),
+                );
+              }),
+        ],
       ),
-      bottomMenuIndex: 1,
     );
   }
 
@@ -165,7 +207,6 @@ class EventScreen extends GetView<EventController> {
     return Container(
       height: AppSizes.baseSize * 32,
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: AppSizes.baseSize),
       padding: const EdgeInsets.all(AppSizes.baseSize),
       alignment: Alignment.bottomCenter,
       decoration: BoxDecoration(

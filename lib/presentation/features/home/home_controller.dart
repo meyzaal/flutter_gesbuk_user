@@ -1,8 +1,30 @@
 import 'dart:math' as math;
-import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
+import 'package:flutter_gesbuk_user/presentation/features/profile/profile_controller.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with StateMixin {
+  final ProfileController profileController = Get.find<ProfileController>();
+  final AuthController authController = Get.find<AuthController>();
+
+  Future<void> createAddPhoneDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return GesbukUserAlertDialog(
+          alertType: AlertType.success,
+          middleText: 'Berhasil menambahkan Event.',
+          onClosed: () {
+            Get.back();
+          },
+        );
+      },
+    );
+  }
+
   Color randomColor() {
     return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
         .withOpacity(1.0);

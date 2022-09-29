@@ -1,24 +1,25 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
-import 'package:get/get_connect/connect.dart';
+import 'package:get/get.dart';
 
 class APIProvider {
-  static const requestTimeOut = Duration(seconds: 25);
-  final _client = GetConnect(timeout: requestTimeOut);
-
   static final _singleton = APIProvider();
   static APIProvider get instance => _singleton;
 
   Future request(APIRequestRepresentable request) async {
     try {
-      final response = await _client.request(
-        request.url,
-        request.method.string,
-        headers: request.headers,
-        query: request.query,
-        body: request.body,
-      );
+      final client = GetConnect(timeout: const Duration(seconds: 24));
+
+      final response = await client
+          .request(
+            request.url,
+            request.method.string,
+            headers: request.headers,
+            query: request.query,
+            body: request.body,
+          )
+          .timeout(const Duration(seconds: 24));
       return _returnResponse(response);
     } on TimeoutException catch (_) {
       throw TimeOutException(null);
@@ -34,18 +35,18 @@ class APIProvider {
       case 201:
         return response.body;
       case 400:
-        throw BadRequestException(response.body.toString());
+        throw BadRequestException(response.bodyString);
       case 401:
-        throw UnauthorizedException(response.body.toString());
+        throw UnauthorizedException(response.bodyString);
       case 403:
-        throw ForbiddenException(response.body.toString());
+        throw ForbiddenException(response.bodyString);
       case 404:
-        throw BadRequestException('Not found');
+        throw BadRequestException(response.bodyString);
       case 500:
         throw FetchDataException('Internal Server Error');
       default:
         throw FetchDataException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+            'Error occured while Communication with Server with StatusCode: ${response.statusCode}');
     }
   }
 }

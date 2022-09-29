@@ -1,3 +1,4 @@
+import 'package:flutter_gesbuk_user/data/models/event_detail_model.dart';
 import 'package:flutter_gesbuk_user/data/models/event_detail_response_model.dart';
 import 'package:flutter_gesbuk_user/data/models/event_model.dart';
 import 'package:flutter_gesbuk_user/data/models/event_response_model.dart';
@@ -8,12 +9,20 @@ class EventRepositoryIml extends EventRepository {
   @override
   Future<List<EventModel>?> getEvent() async {
     final response = await EventAPI.getEvent().request();
-    return EventResponseModel.fromJson(response).data;
+    return EventResponseModel.fromJson(response, EventEndpoint.userEvent)
+        .listData;
   }
 
   @override
-  Future<EventModel?> getEventById(String eventId) async {
-    final response = await EventAPI.getEventById(eventId).request();
+  Future<EventDetailModel?> getEventById(String eventId) async {
+    final response = await EventAPI.getEventByEventId(eventId).request();
     return EventDetailResponseModel.fromJson(response).data;
+  }
+
+  @override
+  Future<EventModel?> enrollEvent(String eventKey) async {
+    final response = await EventAPI.enrollEvent(eventKey).request();
+    return EventResponseModel.fromJson(response, EventEndpoint.enrollEvent)
+        .data;
   }
 }

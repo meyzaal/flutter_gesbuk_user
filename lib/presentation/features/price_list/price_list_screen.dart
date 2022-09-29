@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/coming_soon_page.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 
 class PriceListScreen extends StatelessWidget {

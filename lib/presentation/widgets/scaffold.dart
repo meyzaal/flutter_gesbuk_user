@@ -10,6 +10,8 @@ class GesbukUserScaffold extends StatelessWidget {
   final TabController? tabController;
   final Widget? bottomNavBar;
   final Widget? floatingActionButton;
+  final bool blankAppBar;
+  final List<Widget>? actions;
 
   const GesbukUserScaffold(
       {super.key,
@@ -20,12 +22,13 @@ class GesbukUserScaffold extends StatelessWidget {
       this.tabBarList,
       this.tabController,
       this.bottomNavBar,
-      this.floatingActionButton});
+      this.floatingActionButton,
+      this.blankAppBar = true,
+      this.actions});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: appBarTitle != null
           ? AppBar(
               title: Text(appBarTitle!),
@@ -36,10 +39,13 @@ class GesbukUserScaffold extends StatelessWidget {
                           color: Theme.of(context).iconTheme.color),
                     )
                   : null,
+              actions: actions,
             )
-          : BlankAppBar(
-              context: context,
-            ),
+          : blankAppBar
+              ? BlankAppBar(
+                  context: context,
+                )
+              : null,
       body: body,
       bottomNavigationBar: bottomMenuIndex != null
           ? GesbukUserBottomMenu(bottomMenuIndex!)

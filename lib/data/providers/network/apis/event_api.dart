@@ -1,18 +1,29 @@
+import 'package:flutter_gesbuk_user/app/services/local_storage.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_endpoint.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_provider.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
+import 'package:get/get.dart';
 
-enum EventEndpoint { allEvent, eventById }
+enum EventEndpoint { userEvent, byEventId, enrollEvent }
 
 class EventAPI implements APIRequestRepresentable {
   final EventEndpoint eventEnpoint;
+  final store = Get.find<LocalStorageService>();
+
+  String? get token => store.token;
   String? eventId;
+  String? eventKey;
 
-  EventAPI._({required this.eventEnpoint, this.eventId});
+  EventAPI._({required this.eventEnpoint, this.eventId, this.eventKey});
 
-  EventAPI.getEvent() : this._(eventEnpoint: EventEndpoint.allEvent);
-  EventAPI.getEventById(String eventId)
-      : this._(eventEnpoint: EventEndpoint.eventById, eventId: eventId);
+  EventAPI.getEvent() : this._(eventEnpoint: EventEndpoint.userEvent);
+  EventAPI.getEventByEventId(String eventId)
+      : this._(
+          eventEnpoint: EventEndpoint.byEventId,
+          eventId: eventId,
+        );
+  EventAPI.enrollEvent(String eventKey)
+      : this._(eventEnpoint: EventEndpoint.enrollEvent, eventKey: eventKey);
 
   @override
   get body => null;
@@ -21,23 +32,40 @@ class EventAPI implements APIRequestRepresentable {
   String get endpoint => APIEndpoint.event;
 
   @override
-  Map<String, String>? get headers => null;
+  Map<String, String>? get headers => {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
 
   @override
-  HTTPMethod get method => HTTPMethod.get;
-
-  @override
-  String get path {
-    switch (eventEnpoint) {
-      case EventEndpoint.allEvent:
-        return '/get-all-event-test';
-      case EventEndpoint.eventById:
-        return '/$eventId';
+  HTTPMethod get method {
+    if (eventEnpoint == EventEndpoint.enrollEvent) {
+      return HTTPMethod.put;
+    } else {
+      return HTTPMethod.get;
     }
   }
 
   @override
-  Map<String, String>? get query => null;
+  String get path {
+    switch (eventEnpoint) {
+      case EventEndpoint.userEvent:
+        return '';
+      case EventEndpoint.byEventId:
+        return '/$eventId';
+      case EventEndpoint.enrollEvent:
+        return '/add-user';
+    }
+  }
+
+  @override
+  Map<String, String>? get query {
+    if (eventEnpoint == EventEndpoint.enrollEvent) {
+      return {"key": eventKey!};
+    } else {
+      return null;
+    }
+  }
 
   @override
   Future request() => APIProvider.instance.request(this);

@@ -1,19 +1,35 @@
+import 'package:flutter_gesbuk_user/app/services/local_storage.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_endpoint.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_provider.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
+import 'package:get/get.dart';
+
+enum AuthType { signIn, getUser }
 
 class AuthAPI implements APIRequestRepresentable {
-  String? token;
+  final store = Get.find<LocalStorageService>();
+  final AuthType type;
 
-  AuthAPI._({this.token});
+  String? get token => store.token;
 
-  AuthAPI.signIn(String? token) : this._(token: token);
+  AuthAPI._({required this.type});
+
+  AuthAPI.signIn() : this._(type: AuthType.signIn);
+  AuthAPI.getUserInfo() : this._(type: AuthType.getUser);
 
   @override
   get body => null;
 
   @override
-  String get endpoint => APIEndpoint.user;
+  String get endpoint {
+    switch (type) {
+      case AuthType.signIn:
+        return APIEndpoint.auth;
+
+      case AuthType.getUser:
+        return APIEndpoint.user;
+    }
+  }
 
   @override
   Map<String, String>? get headers => {
@@ -22,10 +38,26 @@ class AuthAPI implements APIRequestRepresentable {
       };
 
   @override
-  HTTPMethod get method => HTTPMethod.post;
+  HTTPMethod get method {
+    switch (type) {
+      case AuthType.signIn:
+        return HTTPMethod.post;
+
+      case AuthType.getUser:
+        return HTTPMethod.get;
+    }
+  }
 
   @override
-  String get path => '/google-validate';
+  String get path {
+    switch (type) {
+      case AuthType.signIn:
+        return '/google-validate';
+
+      case AuthType.getUser:
+        return '';
+    }
+  }
 
   @override
   Map<String, String>? get query => null;

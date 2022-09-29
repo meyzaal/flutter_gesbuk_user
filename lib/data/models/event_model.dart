@@ -10,10 +10,12 @@ class EventModel extends Event {
     DateTime? endDate,
     String? key,
     bool? isEnrolled,
+    String? eventType,
     List<String>? guestList,
     DateTime? createdAt,
     DateTime? updatedAt,
     int? v,
+    String? userId,
   }) : super(
             id: id,
             name: name,
@@ -23,10 +25,12 @@ class EventModel extends Event {
             endDate: endDate,
             key: key,
             isEnrolled: isEnrolled,
+            eventType: eventType,
             guestList: guestList,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            v: v);
+            v: v,
+            userId: userId);
 
   factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
         id: json["_id"],
@@ -37,10 +41,12 @@ class EventModel extends Event {
         endDate: DateTime.parse(json["endDate"]),
         key: json["key"],
         isEnrolled: json["isEnrolled"],
+        eventType: json["eventType"],
         guestList: List<String>.from(json["guestList"].map((x) => x)),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
+        userId: json["userId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,9 +58,11 @@ class EventModel extends Event {
         "endDate": endDate?.toIso8601String(),
         "key": key,
         "isEnrolled": isEnrolled,
+        "eventType": eventType,
         "guestList": List<String>.from(guestList?.map((x) => x) ?? []),
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,
+        "userId": userId,
       };
 }

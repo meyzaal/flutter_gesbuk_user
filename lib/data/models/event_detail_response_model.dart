@@ -1,4 +1,4 @@
-import 'package:flutter_gesbuk_user/data/models/event_model.dart';
+import 'package:flutter_gesbuk_user/data/models/event_detail_model.dart';
 
 class EventDetailResponseModel {
   EventDetailResponseModel({
@@ -7,12 +7,12 @@ class EventDetailResponseModel {
   });
 
   String? message;
-  EventModel? data;
+  EventDetailModel? data;
 
   factory EventDetailResponseModel.fromJson(Map<String, dynamic> json) =>
       EventDetailResponseModel(
         message: json["message"],
-        data: EventModel.fromJson(json["data"]),
+        data: EventDetailModel.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {

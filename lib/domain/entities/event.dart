@@ -8,10 +8,12 @@ class Event {
     this.endDate,
     this.key,
     this.isEnrolled,
+    this.eventType,
     this.guestList,
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.userId,
   });
 
   String? id;
@@ -22,8 +24,10 @@ class Event {
   DateTime? endDate;
   String? key;
   bool? isEnrolled;
+  String? eventType;
   List<String>? guestList;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
+  String? userId;
 }
