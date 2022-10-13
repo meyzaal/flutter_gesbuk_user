@@ -16,72 +16,79 @@ class EventScreen extends GetView<EventController> {
       children: <Widget>[
         GesbukUserScaffold(
           appBarTitle: 'My Event',
-          body: SingleChildScrollView(
-            physics: const ScrollPhysics(),
-            child: Column(
-              children: <Widget>[
-                controller.obx(
-                  (data) {
-                    return Padding(
+          body: RefreshIndicator(
+            onRefresh: () async => await controller.onRefresh(),
+            child: SingleChildScrollView(
+              physics: const ScrollPhysics(),
+              child: Column(
+                children: <Widget>[
+                  controller.obx(
+                    (data) {
+                      return Padding(
+                        padding: const EdgeInsets.all(AppSizes.sidePadding),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('Event kamu',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1
+                                    ?.copyWith(fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 16.0),
+                            ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed('/event_detail',
+                                          arguments: data?[index].id);
+                                      controller.keyController.clear();
+                                    },
+                                    child:
+                                        _buildEventCard(context, index, data));
+                              },
+                              itemCount: data?.length ?? 0,
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      const SizedBox(height: 16.0),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    onLoading: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.26,
+                        child: const Center(
+                            child: CircularProgressIndicator.adaptive())),
+                    onEmpty: Container(
+                      width: double.infinity,
                       padding: const EdgeInsets.all(AppSizes.sidePadding),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text('Event kamu',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  ?.copyWith(fontWeight: FontWeight.w600)),
                           const SizedBox(height: 16.0),
-                          ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                  onTap: () => Get.toNamed('/event_detail',
-                                      arguments: data?[index].id),
-                                  child: _buildEventCard(context, index, data));
-                            },
-                            itemCount: data?.length ?? 0,
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    const SizedBox(height: 16.0),
+                          Align(
+                            alignment: Alignment.center,
+                            child: SvgPicture.asset(
+                              'assets/images/undraw_events_re_98ue.svg',
+                              height: AppSizes.baseSize * 16,
+                            ),
+                          ),
+                          const SizedBox(height: 16.0),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text('Kamu belum ada event.',
+                                style: Theme.of(context).textTheme.bodyText1),
                           ),
                         ],
                       ),
-                    );
-                  },
-                  onLoading: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.26,
-                      child: const Center(
-                          child: CircularProgressIndicator.adaptive())),
-                  onEmpty: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(AppSizes.sidePadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        const SizedBox(height: 16.0),
-                        Align(
-                          alignment: Alignment.center,
-                          child: SvgPicture.asset(
-                            'assets/images/undraw_events_re_98ue.svg',
-                            height: AppSizes.baseSize * 16,
-                          ),
-                        ),
-                        const SizedBox(height: 16.0),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text('Kamu belum ada event.',
-                              style: Theme.of(context).textTheme.bodyText1),
-                        ),
-                      ],
                     ),
                   ),
-                ),
-                const Divider(thickness: 8.0),
-                _buildRedeemButton(context),
-              ],
+                  const Divider(thickness: 8.0),
+                  _buildRedeemButton(context),
+                ],
+              ),
             ),
           ),
           bottomMenuIndex: 1,
@@ -147,7 +154,10 @@ class EventScreen extends GetView<EventController> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             IconButton(
-              onPressed: () => Get.back(),
+              onPressed: () {
+                Get.back();
+                controller.keyController.clear();
+              },
               icon: const Icon(Icons.close_rounded),
             ),
             Padding(

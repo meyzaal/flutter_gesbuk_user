@@ -49,5 +49,7 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSCameraUsageDescription</key>
+		<string>$(PRODUCT_NAME) uses take picture for identify the guest</string>
 	</dict>
 </plist>

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
 import 'package:flutter_gesbuk_user/presentation/features/home/home_controller.dart';
 import 'package:flutter_gesbuk_user/presentation/features/profile/profile.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
@@ -10,6 +11,7 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final ProfileController profileController = Get.find<ProfileController>();
+    final EventController eventController = Get.find<EventController>();
 
     return GesbukUserScaffold(
       body: profileController.obx(

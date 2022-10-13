@@ -31,6 +31,7 @@ class GesbukUserScaffold extends StatelessWidget {
     return Scaffold(
       appBar: appBarTitle != null
           ? AppBar(
+              automaticallyImplyLeading: false,
               title: Text(appBarTitle!),
               leading: backButton == true
                   ? IconButton(

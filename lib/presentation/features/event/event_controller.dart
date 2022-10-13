@@ -20,8 +20,18 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final RxBool isLoading = false.obs;
+  final RxBool isFinishFetchData = false.obs;
   final RxString result = ''.obs;
   final context = Get.context!;
+
+  Future<void> onRefresh() async {
+    if (isFinishFetchData.value) {
+      change(null, status: RxStatus.loading());
+      return onInit();
+    } else {
+      return;
+    }
+  }
 
   void formValidation(BuildContext context) async {
     if (formKey.currentState!.validate()) {
@@ -30,21 +40,16 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
       await _enrollEventUseCase.execute(keyController.text).then((value) {
         isLoading.value = false;
         if (value != null) {
-          Get.back();
           createEventDialog(DialogType.success, 'Berhasil menambahkan Event');
         } else {
-          Get.back();
           createEventDialog(DialogType.error, 'Gagal menambahkan Event');
         }
       }, onError: (error) {
-        Get.back();
         isLoading.value = false;
         if (error.toString().contains('Bad Request')) {
-          Get.back();
           createEventDialog(
               DialogType.error, 'Gagal menambahkan event, event key salah');
         } else {
-          Get.back();
           createEventDialog(DialogType.error, error.toString());
         }
       });
@@ -55,7 +60,7 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
     if (value == null || value.isEmpty) {
       return result.value = 'Kode event tidak boleh kosong.';
     }
-    if (value.length < 10 || value.length > 10) {
+    if (value.length != 10) {
       return result.value = 'Masukkan kode event dengan benar';
     }
     return null;
@@ -65,11 +70,13 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
     try {
       final events = await _fetchEventUseCase.execute();
       List<EventModel>? data = events;
+      isFinishFetchData.value = true;
       return change(data, status: RxStatus.success());
     } catch (error) {
+      isFinishFetchData.value = true;
       if (error.toString().contains('Firebase ID token has expired')) {
         await authController.setFreshToken();
-        return Get.find<EventController>().onInit();
+        return onInit();
       }
 
       if (error.toString().contains('unauthorized')) {
@@ -81,6 +88,7 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
       if (error.toString().contains('Data tidak ditemukan')) {
         return change(null, status: RxStatus.empty());
       }
+
       return change(null, status: RxStatus.error(error.toString()));
     }
   }
@@ -88,33 +96,42 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
   Future<void> createEventDialog(DialogType type, String? message) async {
     return showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return type == DialogType.success
             ? GesbukUserAlertDialog(
                 alertType: AlertType.success,
                 middleText: message,
-                onClosed: () {
-                  Get.back();
-                  keyController.text = '';
-                  Get.find<EventController>().onInit();
-                },
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () {
+                        Get.back();
+                        keyController.clear();
+                        change(null, status: RxStatus.loading());
+                        Get.find<EventController>().onInit();
+                      },
+                      child: const Text('Tutup'))
+                ],
               )
             : GesbukUserAlertDialog(
                 alertType: AlertType.failed,
                 middleText: message,
-                onClosed: () {
-                  Get.back();
-                  keyController.text = '';
-                  Get.find<EventController>().onInit();
-                },
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () {
+                        Get.back();
+                        keyController.clear();
+                      },
+                      child: const Text('Tutup'))
+                ],
               );
       },
     );
   }
 
   @override
-  void onInit() {
-    getEvent();
+  void onInit() async {
+    await getEvent();
     super.onInit();
   }
 

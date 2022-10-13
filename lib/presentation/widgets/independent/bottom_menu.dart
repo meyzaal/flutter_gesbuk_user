@@ -38,16 +38,16 @@ class GesbukUserBottomMenu extends StatelessWidget {
       onTap: (value) {
         switch (value) {
           case 0:
-            Get.offNamed('/home');
+            Get.offNamedUntil('/home', ModalRoute.withName('/home'));
             break;
           case 1:
-            Get.offNamed('/my_event');
+            Get.offNamedUntil('/my_event', ModalRoute.withName('/home'));
             break;
           case 2:
-            Get.offNamed('/price_list');
+            Get.offNamedUntil('/price_list', ModalRoute.withName('/home'));
             break;
           case 3:
-            Get.offNamed('/profile');
+            Get.offNamedUntil('/profile', ModalRoute.withName('/home'));
             break;
         }
       },

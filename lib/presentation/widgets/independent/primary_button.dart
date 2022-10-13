@@ -3,14 +3,18 @@ import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 
 class GesbukUserPrimaryButton extends StatelessWidget {
   final String label;
+  final TextStyle? labelStyle;
   final bool isExpand;
+  final EdgeInsetsGeometry padding;
   final void Function() onPressed;
 
   const GesbukUserPrimaryButton({
     Key? key,
     required this.label,
+    this.labelStyle,
     required this.onPressed,
     this.isExpand = true,
+    this.padding = const EdgeInsets.all(AppSizes.sidePadding),
   }) : super(key: key);
 
   @override
@@ -23,9 +27,12 @@ class GesbukUserPrimaryButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.buttonRadius),
           ),
-          padding: const EdgeInsets.all(AppSizes.sidePadding),
+          padding: padding,
         ),
-        child: Text(label),
+        child: Text(
+          label,
+          style: labelStyle,
+        ),
       ),
     );
   }

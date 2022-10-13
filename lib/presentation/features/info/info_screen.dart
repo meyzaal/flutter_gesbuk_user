@@ -9,6 +9,7 @@ class InfoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final String appVersion = Get.arguments;
     return GesbukUserScaffold(
+      backButton: true,
       appBarTitle: 'Tentang Gesbuk',
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32.0),

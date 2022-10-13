@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 
-class GesbukUserSecondaryButtonIcon extends StatelessWidget {
+class GesbukSecondaryButton extends StatelessWidget {
   final String label;
-  final IconData icon;
   final void Function() onPressed;
   final bool isExpand;
-  final AlignmentGeometry? alignment;
+  final Color? backgroundColor;
 
-  const GesbukUserSecondaryButtonIcon({
+  const GesbukSecondaryButton({
     Key? key,
     required this.label,
-    required this.icon,
     required this.onPressed,
-    this.isExpand = false,
-    this.alignment,
+    this.isExpand = true,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: isExpand ? MediaQuery.of(context).size.width : null,
-      child: OutlinedButton.icon(
+      width: isExpand ? double.infinity : null,
+      child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
-          alignment: alignment,
+          backgroundColor: backgroundColor,
           side: const BorderSide(color: AppColors.mainColor),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.buttonRadius),
           ),
           padding: const EdgeInsets.all(AppSizes.sidePadding),
         ),
-        icon: Icon(icon),
-        label: Text(label),
+        child: Text(label),
       ),
     );
   }

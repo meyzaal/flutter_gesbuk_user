@@ -4,4 +4,5 @@ class APIEndpoint {
   static String get auth => '$apiUrl/auth';
   static String get user => '$apiUrl/user';
   static String get event => '$apiUrl/event';
+  static String get guest => '$apiUrl/guest';
 }

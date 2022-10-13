@@ -11,6 +11,7 @@ class GuestModel extends Guest {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? checkInTime,
+    bool? isExpanded,
   }) : super(
             id: id,
             name: name,
@@ -20,7 +21,8 @@ class GuestModel extends Guest {
             v: v,
             createdAt: createdAt,
             updatedAt: updatedAt,
-            checkInTime: checkInTime);
+            checkInTime: checkInTime,
+            isExpanded: isExpanded);
 
   factory GuestModel.fromJson(Map<String, dynamic> json) => GuestModel(
         id: json["_id"],

@@ -30,17 +30,4 @@ class EventResponseModel {
         throw Exception('error at models');
     }
   }
-
-  // Map<String, dynamic> toJson() {
-  //   switch (endpo) {
-  //     case value:
-
-  //       break;
-  //     default:
-  //   }
-  //   return {
-  //       "message": message,
-  //       "data": List<dynamic>.from(listData?.map((x) => x.toJson()) ?? []),
-  //     };
-  // }
 }

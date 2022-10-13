@@ -7,6 +7,7 @@ class GesbukUserPrimaryButtonIcon extends StatelessWidget {
   final IconData? icon;
   final String? imagePath;
   final bool isImageIcon;
+  final bool isExpand;
   final void Function() onPressed;
 
   const GesbukUserPrimaryButtonIcon({
@@ -16,12 +17,13 @@ class GesbukUserPrimaryButtonIcon extends StatelessWidget {
     required this.onPressed,
     required this.isImageIcon,
     this.imagePath,
+    this.isExpand = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: isExpand ? double.infinity : null,
       child: ElevatedButton.icon(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

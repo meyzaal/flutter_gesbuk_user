@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/data/models/user_model.dart';
 import 'package:flutter_gesbuk_user/domain/use_cases/fetch_user_use_case.dart';
 import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/snack_bar.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController
@@ -27,7 +27,7 @@ class ProfileController extends GetxController
     } catch (error) {
       if (error.toString().contains('Firebase ID token has expired')) {
         await authController.setFreshToken();
-        Get.find<ProfileController>().onInit();
+        return Get.find<ProfileController>().onInit();
       }
       change(null, status: RxStatus.error(error.toString()));
     }

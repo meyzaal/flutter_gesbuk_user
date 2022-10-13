@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/coming_soon_page.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/scaffold.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});

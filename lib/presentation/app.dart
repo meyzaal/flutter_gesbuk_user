@@ -4,7 +4,7 @@ import 'package:flutter_gesbuk_user/app/navigation/pages.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/presentation/app_controller.dart';
 import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/loading_screen.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 class App extends GetView<AuthController> {
@@ -20,6 +20,7 @@ class App extends GetView<AuthController> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: GesbukUserTheme.of(context),
             getPages: GesbukUserPages.routes,
             initialRoute: (snapshot.data?.emailVerified == true)

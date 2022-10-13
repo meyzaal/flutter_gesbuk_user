@@ -4,8 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
+import 'package:flutter_gesbuk_user/presentation/features/guest_list/guest_list.dart';
 import 'package:flutter_gesbuk_user/presentation/features/scanner/scanner.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/scaffold.dart';
+import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -21,10 +22,18 @@ class _ScannerScreenState extends State<ScannerScreen> {
   Barcode? result;
   QRViewController? controller;
   ScannerController scannerController = Get.find<ScannerController>();
+  GuestListController guestListController = Get.find<GuestListController>();
   late final double height, width;
 
   @override
   void initState() {
+    controller
+        ?.getCameraInfo()
+        .then((value) => scannerController.cameraFacing.value = value);
+
+    controller
+        ?.getFlashStatus()
+        .then((value) => scannerController.isFlashOn.value = value ?? false);
     super.initState();
   }
 
@@ -44,6 +53,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
+
     // var scanArea = (width < 400 || height < 400) ? 150.0 : 300.0;
 
     return GesbukUserScaffold(
@@ -83,18 +93,31 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           Icons.close_rounded,
                           color: AppColors.white,
                         )),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.flash_off,
-                          color: AppColors.white,
-                        )),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.camera_rear_rounded,
-                          color: AppColors.white,
-                        )),
+                    Obx(
+                      () => IconButton(
+                          onPressed: () {
+                            scannerController.toggleFlash(controller);
+                          },
+                          icon: Icon(
+                            scannerController.isFlashOn.value
+                                ? Icons.flash_on
+                                : Icons.flash_off,
+                            color: AppColors.white,
+                          )),
+                    ),
+                    Obx(
+                      () => IconButton(
+                          onPressed: () {
+                            scannerController.flipCamera(controller);
+                          },
+                          icon: Icon(
+                            scannerController.cameraFacing.value ==
+                                    CameraFacing.back
+                                ? Icons.camera_rear_rounded
+                                : Icons.camera_front_rounded,
+                            color: AppColors.white,
+                          )),
+                    )
                   ],
                 ),
               )),
@@ -118,8 +141,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     width: 8.0,
                   ),
                   Flexible(
-                    child: Text(
-                        'Arahkan kode QR ke area Scanner',
+                    child: Text('Arahkan kode QR ke area Scanner',
                         softWrap: true,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -128,7 +150,17 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 ],
               ),
             ),
-          )
+          ),
+          Obx(() => guestListController.isPageLoading.value == true
+              ? Container(
+                  height: height,
+                  width: width,
+                  color: Colors.black38,
+                  child: const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                )
+              : const SizedBox())
         ],
       ),
     );
@@ -140,11 +172,15 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   void _onQrCodeReading(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
       scannerController.setQRViewController(controller);
       scannerController.setScanning(true);
-      // homeController.setQRUrl(scanData, height, width);
+      if (scanData.code != null) {
+        await guestListController.setGuestCheckin(
+            '${scanData.code}', context, false);
+        controller.resumeCamera();
+      }
     });
   }
 

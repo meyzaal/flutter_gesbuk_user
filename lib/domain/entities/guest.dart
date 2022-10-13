@@ -9,6 +9,7 @@ class Guest {
     this.createdAt,
     this.updatedAt,
     this.checkInTime,
+    this.isExpanded,
   });
 
   String? id;
@@ -19,5 +20,6 @@ class Guest {
   int? v;
   DateTime? createdAt;
   DateTime? updatedAt;
-    DateTime? checkInTime;
+  DateTime? checkInTime;
+  bool? isExpanded;
 }

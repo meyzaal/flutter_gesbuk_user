@@ -1,13 +1,12 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
-import 'package:flutter_gesbuk_user/presentation/features/profile/profile_controller.dart';
+import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController with StateMixin {
-  final ProfileController profileController = Get.find<ProfileController>();
-  final AuthController authController = Get.find<AuthController>();
+  // final ProfileController profileController = Get.find<ProfileController>();
+  // final AuthController authController = Get.find<AuthController>();
 
   Future<void> createAddPhoneDialog(BuildContext context) async {
     return showDialog<void>(
@@ -17,9 +16,9 @@ class HomeController extends GetxController with StateMixin {
         return GesbukUserAlertDialog(
           alertType: AlertType.success,
           middleText: 'Berhasil menambahkan Event.',
-          onClosed: () {
-            Get.back();
-          },
+          actions: <Widget>[
+            TextButton(onPressed: () => Get.back(), child: const Text('Tutup'))
+          ],
         );
       },
     );

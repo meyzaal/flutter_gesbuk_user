@@ -10,17 +10,26 @@ class EventDetailController extends GetxController
   EventDetailController(this._fetchEventDetailUseCase);
 
   final AuthController authController = Get.find<AuthController>();
+  RxBool isFinishFetchData = false.obs;
 
   String eventId = Get.arguments;
   RxBool isLoading = true.obs;
+
+  Future<void> onRefresh() async {
+    if (!isFinishFetchData.value) return;
+    change(null, status: RxStatus.loading());
+    return onInit();
+  }
 
   Future<void> getEventDetail() async {
     try {
       final events = await _fetchEventDetailUseCase.execute(eventId);
       EventDetailModel? data = events;
       isLoading.value = false;
+      isFinishFetchData.value = true;
       return change(data, status: RxStatus.success());
     } catch (error) {
+      isFinishFetchData.value = true;
       if (error.toString().contains('Firebase ID token has expired')) {
         await authController.setFreshToken();
         return Get.find<EventDetailController>().onInit();
@@ -32,7 +41,6 @@ class EventDetailController extends GetxController
         return authController.signOut(error: '403 Forbidden');
       }
       if (error.toString().contains('Data tidak ditemukan')) {
-        
         return change(null, status: RxStatus.empty());
       }
       return change(null, status: RxStatus.error(error.toString()));
@@ -40,8 +48,9 @@ class EventDetailController extends GetxController
   }
 
   @override
-  void onInit() {
-    getEventDetail();
+  void onInit() async {
+    isFinishFetchData.value = false;
+    await getEventDetail();
     super.onInit();
   }
 }
