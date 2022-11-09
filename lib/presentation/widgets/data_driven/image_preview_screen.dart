@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,11 +13,12 @@ class ImagePreviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     XFile image = Get.arguments;
     return GesbukUserScaffold(
+      scaffoldBackgroundColor: AppColors.black,
       blankAppBar: true,
       bottomNavBar: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(16.0),
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: AppColors.black,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[

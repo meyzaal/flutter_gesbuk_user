@@ -28,7 +28,7 @@ class GesbukUserListTile extends StatelessWidget {
       leading: leading,
       title: title,
       subtitle: subtitle,
-      trailing: trailing,
+      trailing: trailing ?? const Icon(Icons.chevron_right_rounded),
       onTap: onTap,
     );
   }

@@ -1,6 +1,7 @@
 export 'data_driven/guest_card.dart';
 export 'data_driven/profile_card_background.dart';
 export 'data_driven/image_preview_screen.dart';
+export 'data_driven/product_card.dart';
 
 export 'independent/alert_dialog.dart';
 export 'independent/bottom_menu.dart';

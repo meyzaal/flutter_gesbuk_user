@@ -15,6 +15,11 @@ class ProfileController extends GetxController
 
   RxBool isDark = false.obs;
 
+  final url = Uri(
+    scheme: 'https',
+    host: 'play.google.com',
+  );
+
   getUserInfo() async {
     try {
       final result = await _fetchUserUseCase.execute();

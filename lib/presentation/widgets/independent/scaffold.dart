@@ -12,6 +12,8 @@ class GesbukUserScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final bool blankAppBar;
   final List<Widget>? actions;
+  final Color? safeAreaColor;
+  final Color? scaffoldBackgroundColor;
 
   const GesbukUserScaffold(
       {super.key,
@@ -24,35 +26,42 @@ class GesbukUserScaffold extends StatelessWidget {
       this.bottomNavBar,
       this.floatingActionButton,
       this.blankAppBar = true,
-      this.actions});
+      this.actions,
+      this.safeAreaColor,
+      this.scaffoldBackgroundColor});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarTitle != null
-          ? AppBar(
-              automaticallyImplyLeading: false,
-              title: Text(appBarTitle!),
-              leading: backButton == true
-                  ? IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(Icons.arrow_back_rounded,
-                          color: Theme.of(context).iconTheme.color),
-                    )
-                  : null,
-              actions: actions,
-            )
-          : blankAppBar
-              ? BlankAppBar(
-                  context: context,
-                )
-              : null,
-      body: body,
-      bottomNavigationBar: bottomMenuIndex != null
-          ? GesbukUserBottomMenu(bottomMenuIndex!)
-          : bottomNavBar,
-      floatingActionButton: floatingActionButton,
-    );
+    return Container(
+        color: safeAreaColor ?? Theme.of(context).appBarTheme.backgroundColor,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: scaffoldBackgroundColor,
+            appBar: appBarTitle != null
+                ? AppBar(
+                    automaticallyImplyLeading: false,
+                    title: Text(appBarTitle!),
+                    leading: backButton == true
+                        ? IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(Icons.arrow_back_rounded,
+                                color: Theme.of(context).iconTheme.color),
+                          )
+                        : null,
+                    actions: actions,
+                  )
+                : blankAppBar
+                    ? BlankAppBar(
+                        context: context,
+                      )
+                    : null,
+            body: body,
+            bottomNavigationBar: bottomMenuIndex != null
+                ? GesbukUserBottomMenu(bottomMenuIndex!)
+                : bottomNavBar,
+            floatingActionButton: floatingActionButton,
+          ),
+        ));
   }
 }
 

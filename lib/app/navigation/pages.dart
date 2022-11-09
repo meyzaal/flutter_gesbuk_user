@@ -65,6 +65,7 @@ class GesbukUserPages {
     GetPage(
         name: GesbukUserRoutes.priceList,
         page: () => const PriceListScreen(),
+        binding: PriceListBinding(),
         transition: Transition.noTransition),
     GetPage(
         name: GesbukUserRoutes.profile,

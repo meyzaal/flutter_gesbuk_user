@@ -34,6 +34,9 @@ class GesbukUserBottomMenu extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       currentIndex: menuIndex,
       backgroundColor: AppColors.backgroundLight,
+      selectedFontSize: 12.0,
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
       elevation: 16.0,
       onTap: (value) {
         switch (value) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gesbuk_user/app/extensions/launch_url.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/presentation/features/auth/auth.dart';
 import 'package:flutter_gesbuk_user/presentation/features/profile/profile.dart';
@@ -50,6 +51,18 @@ class ProfileScreen extends GetView<ProfileController> {
             Get.toNamed('/info', arguments: _authController.appVersion.value),
       ),
       GesbukUserListTile(
+        leading: const Icon(Icons.star_rounded),
+        title: Text(
+          'Nilai Kami',
+          style: Theme.of(context).textTheme.button,
+        ),
+        subtitle: Text(
+          'Beri nilai aplikasi Gesbuk di Play Store',
+          style: Theme.of(context).textTheme.caption,
+        ),
+        onTap: () async => await launch(controller.url, context),
+      ),
+      GesbukUserListTile(
         leading: const Icon(Icons.logout_rounded),
         title: Text(
           'Sign Out',
@@ -64,10 +77,12 @@ class ProfileScreen extends GetView<ProfileController> {
     ];
 
     return GesbukUserScaffold(
+      safeAreaColor: AppColors.mainColor,
       blankAppBar: false,
       body: Column(
         children: <Widget>[
           _buildProfileCard(context),
+          const SizedBox(height: 16.0),
           Expanded(
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
