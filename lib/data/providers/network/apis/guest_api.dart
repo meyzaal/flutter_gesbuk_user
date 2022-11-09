@@ -1,15 +1,11 @@
-import 'package:flutter_gesbuk_user/app/services/local_storage.dart';
 import 'package:flutter_gesbuk_user/data/models/guest_response_model.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_endpoint.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_provider.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
-import 'package:get/get.dart';
 
 class GuestAPI implements APIRequestRepresentable {
   final GuestEndpoint guestEndpoint;
-  final store = Get.find<LocalStorageService>();
 
-  String? get token => store.token;
   String? guestId;
   String? eventId;
   Map<String, String>? guestQuery;
@@ -42,12 +38,6 @@ class GuestAPI implements APIRequestRepresentable {
 
   @override
   String get endpoint => APIEndpoint.guest;
-
-  @override
-  Map<String, String>? get headers => {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      };
 
   @override
   HTTPMethod get method {
@@ -84,4 +74,7 @@ class GuestAPI implements APIRequestRepresentable {
 
   @override
   String get url => endpoint + path;
+  
+  @override
+  bool get requiresAuthToken => true;
 }

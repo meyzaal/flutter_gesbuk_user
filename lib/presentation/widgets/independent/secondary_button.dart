@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 
-class GesbukSecondaryButton extends StatelessWidget {
+class GesbukUserSecondaryButton extends StatelessWidget {
   final String label;
   final void Function() onPressed;
   final bool isExpand;
   final Color? backgroundColor;
 
-  const GesbukSecondaryButton({
+  const GesbukUserSecondaryButton({
     Key? key,
     required this.label,
     required this.onPressed,

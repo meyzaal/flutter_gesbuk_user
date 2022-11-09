@@ -44,7 +44,6 @@ class GesbukUserAlertDialog extends StatelessWidget {
         content: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              
               image != null
                   ? SvgPicture.asset(
                       image,

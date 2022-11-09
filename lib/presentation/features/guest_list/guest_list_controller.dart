@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/data/models/guest_model.dart';
@@ -120,9 +118,6 @@ class GuestListController extends GetxController
               builder: (context) {
                 return Obx(
                   () => GesbukUserAlertDialog(
-                    actionsAlignment: isSuccessUploadImage.value
-                        ? null
-                        : MainAxisAlignment.spaceBetween,
                     alertType: AlertType.success,
                     title: 'Berhasil check-in',
                     content: Column(
@@ -184,15 +179,11 @@ class GuestListController extends GetxController
                     actions: <Widget>[
                       isSuccessUploadImage.value
                           ? const SizedBox()
-                          : GesbukUserPrimaryButtonIcon(
-                              isExpand: false,
-                              label: 'Ambil Foto',
-                              icon: Icons.camera_alt_rounded,
+                          : TextButton(
                               onPressed: () {
                                 takePicture();
                               },
-                              isImageIcon: false,
-                            ),
+                              child: const Text('Ambil Foto')),
                       TextButton(
                           onPressed: () {
                             Get.back();
@@ -264,7 +255,8 @@ class GuestListController extends GetxController
     var context = Get.context!;
 
     try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+      final XFile? image =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 70);
 
       isSuccessUploadImage.value = true;
       _imagePreview(image);

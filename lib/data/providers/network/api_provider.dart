@@ -1,21 +1,28 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter_gesbuk_user/app/services/firebase.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
 import 'package:get/get.dart';
 
 class APIProvider {
   static final _singleton = APIProvider();
   static APIProvider get instance => _singleton;
+  final FirebaseService firebaseService = Get.find<FirebaseService>();
 
   Future request(APIRequestRepresentable request) async {
     try {
+      final token = await firebaseService.getFirebaseToken();
+      final customHeaders = request.requiresAuthToken
+          ? {'Accept': 'application/json', 'Authorization': 'Bearer $token'}
+          : {'Accept': 'application/json'};
+
       final client = GetConnect(timeout: const Duration(seconds: 24));
 
       final response = await client
           .request(
             request.url,
             request.method.string,
-            headers: request.headers,
+            headers: customHeaders,
             query: request.query,
             body: request.body,
           )

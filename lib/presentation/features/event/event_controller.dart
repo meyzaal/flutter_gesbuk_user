@@ -71,14 +71,10 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
       final events = await _fetchEventUseCase.execute();
       List<EventModel>? data = events;
       isFinishFetchData.value = true;
+
       return change(data, status: RxStatus.success());
     } catch (error) {
       isFinishFetchData.value = true;
-      if (error.toString().contains('Firebase ID token has expired')) {
-        await authController.setFreshToken();
-        return onInit();
-      }
-
       if (error.toString().contains('unauthorized')) {
         return authController.signOut(error: 'Unauthorized');
       }
@@ -88,7 +84,8 @@ class EventController extends GetxController with StateMixin<List<EventModel>> {
       if (error.toString().contains('Data tidak ditemukan')) {
         return change(null, status: RxStatus.empty());
       }
-
+      GesbukUserSnackBar.showSnackBar(
+          context, '$error', Colors.red.shade400, 'Tutup');
       return change(null, status: RxStatus.error(error.toString()));
     }
   }

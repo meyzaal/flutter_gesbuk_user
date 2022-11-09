@@ -1,16 +1,11 @@
-import 'package:flutter_gesbuk_user/app/services/local_storage.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_endpoint.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_provider.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
-import 'package:get/get.dart';
 
 enum AuthType { signIn, getUser }
 
 class AuthAPI implements APIRequestRepresentable {
-  final store = Get.find<LocalStorageService>();
   final AuthType type;
-
-  String? get token => store.token;
 
   AuthAPI._({required this.type});
 
@@ -30,12 +25,6 @@ class AuthAPI implements APIRequestRepresentable {
         return APIEndpoint.user;
     }
   }
-
-  @override
-  Map<String, String>? get headers => {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      };
 
   @override
   HTTPMethod get method {
@@ -67,4 +56,7 @@ class AuthAPI implements APIRequestRepresentable {
 
   @override
   String get url => endpoint + path;
+
+  @override
+  bool get requiresAuthToken => true;
 }

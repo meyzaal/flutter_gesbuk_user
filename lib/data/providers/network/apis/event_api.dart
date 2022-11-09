@@ -1,16 +1,12 @@
-import 'package:flutter_gesbuk_user/app/services/local_storage.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_endpoint.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_provider.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
-import 'package:get/get.dart';
 
 enum EventEndpoint { userEvent, byEventId, enrollEvent }
 
 class EventAPI implements APIRequestRepresentable {
   final EventEndpoint eventEnpoint;
-  final store = Get.find<LocalStorageService>();
 
-  String? get token => store.token;
   String? eventId;
   String? eventKey;
 
@@ -30,12 +26,6 @@ class EventAPI implements APIRequestRepresentable {
 
   @override
   String get endpoint => APIEndpoint.event;
-
-  @override
-  Map<String, String>? get headers => {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      };
 
   @override
   HTTPMethod get method {
@@ -72,4 +62,7 @@ class EventAPI implements APIRequestRepresentable {
 
   @override
   String get url => endpoint + path;
+  
+  @override
+  bool get requiresAuthToken => true;
 }

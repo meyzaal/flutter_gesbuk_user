@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 

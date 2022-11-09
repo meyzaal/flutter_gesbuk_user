@@ -20,20 +20,22 @@ class ImagePreviewScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            GesbukUserSecondaryButtonIcon(
-              isExpand: false,
-              label: 'Batal',
-              onPressed: () => Get.back(),
-              icon: Icons.close,
+            Expanded(
+              child: GesbukUserPrimaryButtonIcon(
+                label: 'Kirim',
+                onPressed: () => Get.back(),
+                isImageIcon: false,
+                icon: Icons.upload,
+              ),
             ),
             const SizedBox(width: 16.0),
-            GesbukUserPrimaryButtonIcon(
-              isExpand: false,
-              label: 'Kirim',
-              onPressed: () => Get.back(),
-              isImageIcon: false,
-              icon: Icons.upload,
-            )
+            Expanded(
+              child: GesbukUserSecondaryButtonIcon(
+                label: 'Batal',
+                onPressed: () => Get.back(),
+                icon: Icons.close,
+              ),
+            ),
           ],
         ),
       ),

@@ -19,7 +19,7 @@ class EventScreen extends GetView<EventController> {
           body: RefreshIndicator(
             onRefresh: () async => await controller.onRefresh(),
             child: SingleChildScrollView(
-              physics: const ScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: <Widget>[
                   controller.obx(
@@ -79,6 +79,29 @@ class EventScreen extends GetView<EventController> {
                           Align(
                             alignment: Alignment.center,
                             child: Text('Kamu belum ada event.',
+                                style: Theme.of(context).textTheme.bodyText1),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onError: (error) => Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppSizes.sidePadding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(height: 16.0),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              'assets/images/undraw_Page_not_found_re_e9o6.png',
+                              height: AppSizes.baseSize * 16,
+                            ),
+                          ),
+                          const SizedBox(height: 16.0),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text('Sepertinya ada masalah.',
                                 style: Theme.of(context).textTheme.bodyText1),
                           ),
                         ],

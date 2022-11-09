@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/extensions/date.dart';
 import 'package:flutter_gesbuk_user/app/theme/theme.dart';
-import 'package:flutter_gesbuk_user/data/models/guest_model.dart';
 
 enum GuestCardType { listTile, expansionalTile }
 
@@ -211,7 +209,6 @@ class GuestCard extends StatelessWidget {
                             )
                           : ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  // padding: ,
                                   backgroundColor: AppColors.mainColor,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:

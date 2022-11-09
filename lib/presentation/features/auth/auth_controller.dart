@@ -47,34 +47,17 @@ class AuthController extends GetxController with StateMixin<GesbukUserModel?> {
       final user = _firebaseAuth.currentUser;
 
       if (user != null) {
-        // Get id token
-        String? token = await user.getIdToken();
-
-        storage.token = token;
-
-        // Print firebase token for testing postman
-        print('===========FIREBASE TOKEN START===========');
-        while (token!.isNotEmpty) {
-          int initLength = (token.length >= 500 ? 500 : token.length);
-          print(token.substring(0, initLength));
-          int endLength = token.length;
-          token = token.substring(initLength, endLength);
-        }
-        print('===========FIREBASE TOKEN END===========');
-
         // backend validation
-        final result = await _signInUseCase.execute();
+        await _signInUseCase.execute();
 
-        if (result != null) {
-          change(null, status: RxStatus.success());
+        change(null, status: RxStatus.success());
 
-          Get.offNamed('/home');
-        }
+        Get.offNamed('/home');
       }
     } on FirebaseAuthException catch (firebaseError) {
-      
       signOut(error: firebaseError.toString());
     } catch (error) {
+      print(error.toString());
       // error dismiss google account
       if (error.toString().contains(
           "Failed assertion: line 43 pos 12: 'accessToken != null || idToken != null': At least one of ID token and access token is required")) {
@@ -99,6 +82,7 @@ class AuthController extends GetxController with StateMixin<GesbukUserModel?> {
 
       // remove storage
       storage.token = null;
+      storage.tokenTime = null;
 
       // route to login page
       Get.offAllNamed('/login');
@@ -118,18 +102,6 @@ class AuthController extends GetxController with StateMixin<GesbukUserModel?> {
           .then((value) => appVersion.value = value.version);
     } catch (e) {
       print(e.toString());
-    }
-  }
-
-  setFreshToken() async {
-    final User? user = _firebaseAuth.currentUser;
-
-    if (user != null) {
-      final String freshToken = await user.getIdToken();
-
-      storage.token = freshToken;
-    } else {
-      signOut(error: 'Sesi anda sudah habis');
     }
   }
 

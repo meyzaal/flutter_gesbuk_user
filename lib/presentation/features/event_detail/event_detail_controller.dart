@@ -30,10 +30,6 @@ class EventDetailController extends GetxController
       return change(data, status: RxStatus.success());
     } catch (error) {
       isFinishFetchData.value = true;
-      if (error.toString().contains('Firebase ID token has expired')) {
-        await authController.setFreshToken();
-        return Get.find<EventDetailController>().onInit();
-      }
       if (error.toString().contains('unauthorized')) {
         return authController.signOut(error: 'Unauthorized');
       }

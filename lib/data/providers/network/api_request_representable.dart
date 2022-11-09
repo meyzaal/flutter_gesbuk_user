@@ -18,11 +18,11 @@ extension HTTPMethodString on HTTPMethod {
 }
 
 abstract class APIRequestRepresentable {
+  bool get requiresAuthToken;
   String get url;
   String get endpoint;
   String get path;
   HTTPMethod get method;
-  Map<String, String>? get headers;
   Map<String, String>? get query;
   dynamic get body;
   Future request();

@@ -25,10 +25,6 @@ class ProfileController extends GetxController
       }
       change(data, status: RxStatus.success());
     } catch (error) {
-      if (error.toString().contains('Firebase ID token has expired')) {
-        await authController.setFreshToken();
-        return Get.find<ProfileController>().onInit();
-      }
       change(null, status: RxStatus.error(error.toString()));
     }
   }

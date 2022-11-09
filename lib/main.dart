@@ -1,9 +1,8 @@
 // ignore_for_file: avoid_print
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gesbuk_user/app/config/firebase_options.dart';
+import 'package:flutter_gesbuk_user/app/services/firebase.dart';
 import 'package:flutter_gesbuk_user/presentation/app.dart';
 import 'package:get/get.dart';
 
@@ -15,9 +14,9 @@ void main() async {
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsFlutterBinding);
   WidgetsFlutterBinding();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -30,5 +29,6 @@ void main() async {
 initServices() async {
   print('starting services ...');
   await Get.putAsync(() => LocalStorageService().init());
+  await Get.putAsync(() => FirebaseService().init(), permanent: true);
   print('All services started...');
 }
