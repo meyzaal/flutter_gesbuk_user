@@ -1,3 +1,4 @@
+
 import 'package:flutter_gesbuk_user/data/models/guest_response_model.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_endpoint.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_provider.dart';
@@ -9,9 +10,11 @@ class GuestAPI implements APIRequestRepresentable {
   String? guestId;
   String? eventId;
   Map<String, String>? guestQuery;
+  dynamic guestBody;
 
   GuestAPI._(
       {required this.guestEndpoint,
+      this.guestBody,
       this.guestId,
       this.eventId,
       this.guestQuery});
@@ -25,11 +28,19 @@ class GuestAPI implements APIRequestRepresentable {
             eventId: eventId,
             guestQuery: guestQuery);
 
+  GuestAPI.uploadPhoto(String guestId, dynamic body)
+      : this._(
+            guestEndpoint: GuestEndpoint.uploadPhoto,
+            guestId: guestId,
+            guestBody: body);
+
   @override
   get body {
     switch (guestEndpoint) {
       case GuestEndpoint.checkin:
         return {'checkInTime': DateTime.now().toIso8601String()};
+      case GuestEndpoint.uploadPhoto:
+        return guestBody;
 
       default:
         null;
@@ -46,6 +57,8 @@ class GuestAPI implements APIRequestRepresentable {
         return HTTPMethod.patch;
       case GuestEndpoint.fetchGuest:
         return HTTPMethod.get;
+      case GuestEndpoint.uploadPhoto:
+        return HTTPMethod.put;
     }
   }
 
@@ -56,6 +69,8 @@ class GuestAPI implements APIRequestRepresentable {
         return '/check-in/$guestId';
       case GuestEndpoint.fetchGuest:
         return '/from-event/$eventId';
+      case GuestEndpoint.uploadPhoto:
+        return '/upload-photo/$guestId';
     }
   }
 
@@ -74,7 +89,7 @@ class GuestAPI implements APIRequestRepresentable {
 
   @override
   String get url => endpoint + path;
-  
+
   @override
   bool get requiresAuthToken => true;
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_gesbuk_user/data/models/guest_model.dart';
 
-enum GuestEndpoint { checkin, fetchGuest }
+enum GuestEndpoint { checkin, fetchGuest, uploadPhoto }
 
 class GuestResponseModel {
   GuestResponseModel({
@@ -22,9 +22,6 @@ class GuestResponseModel {
   factory GuestResponseModel.fromJson(
       Map<String, dynamic> json, GuestEndpoint guestEndpoint) {
     switch (guestEndpoint) {
-      case GuestEndpoint.checkin:
-        return GuestResponseModel(
-            message: json["message"], data: GuestModel.fromJson(json["data"]));
       case GuestEndpoint.fetchGuest:
         return GuestResponseModel(
           message: json["message"],
@@ -38,7 +35,8 @@ class GuestResponseModel {
           currentPage: json["currentPage"],
         );
       default:
-        throw Exception('error at models');
+        return GuestResponseModel(
+            message: json["message"], data: GuestModel.fromJson(json["data"]));
     }
   }
 

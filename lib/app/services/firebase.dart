@@ -20,7 +20,6 @@ class FirebaseService extends GetxService {
   }
 
   Future<String?> getFirebaseToken() async {
-    debugPrint('get firebase token running');
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
     String? timeStorage = _storage.tokenTime;

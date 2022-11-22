@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/extensions/currency_formatter.dart';
 import 'package:flutter_gesbuk_user/app/extensions/launch_url.dart';
-import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/presentation/features/price_list/price_list.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';

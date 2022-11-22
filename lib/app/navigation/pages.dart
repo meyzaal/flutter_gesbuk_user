@@ -3,13 +3,13 @@ import 'package:flutter_gesbuk_user/presentation/features/edit_profile/edit_prof
 import 'package:flutter_gesbuk_user/presentation/features/event/event.dart';
 import 'package:flutter_gesbuk_user/presentation/features/event_detail/event_detail.dart';
 import 'package:flutter_gesbuk_user/presentation/features/guest_list/guest_list.dart';
+import 'package:flutter_gesbuk_user/presentation/features/image_preview/image_preview.dart';
 import 'package:flutter_gesbuk_user/presentation/features/search_guest/search_guest.dart';
 import 'package:flutter_gesbuk_user/presentation/features/home/home.dart';
 import 'package:flutter_gesbuk_user/presentation/features/info/info_screen.dart';
 import 'package:flutter_gesbuk_user/presentation/features/price_list/price_list.dart';
 import 'package:flutter_gesbuk_user/presentation/features/profile/profile.dart';
 import 'package:flutter_gesbuk_user/presentation/features/scanner/scanner.dart';
-import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
 part 'routes.dart';
@@ -61,7 +61,8 @@ class GesbukUserPages {
         transition: Transition.noTransition),
     GetPage(
         name: GesbukUserRoutes.imagePreview,
-        page: () => const ImagePreviewScreen()),
+        page: () => const ImagePreviewScreen(),
+        bindings: [ImagePreviewBinding(), GuestListBinding()]),
     GetPage(
         name: GesbukUserRoutes.priceList,
         page: () => const PriceListScreen(),

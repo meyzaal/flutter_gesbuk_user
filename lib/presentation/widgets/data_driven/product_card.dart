@@ -67,11 +67,17 @@ class ProductCard extends StatelessWidget {
                   ],
                 ),
                 Text(formatCurrency.format(finalPrice),
-                    style: Theme.of(context).textTheme.subtitle1),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        ?.copyWith(fontWeight: FontWeight.w600)),
                 const Divider(),
                 Text(
                   'Detail',
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      ?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8.0),
                 Text(

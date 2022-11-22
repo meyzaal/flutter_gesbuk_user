@@ -8,6 +8,7 @@ class GesbukUserPrimaryButtonIcon extends StatelessWidget {
   final String? imagePath;
   final bool isImageIcon;
   final bool isExpand;
+  final Widget? child;
   final void Function() onPressed;
 
   const GesbukUserPrimaryButtonIcon({
@@ -18,6 +19,7 @@ class GesbukUserPrimaryButtonIcon extends StatelessWidget {
     required this.isImageIcon,
     this.imagePath,
     this.isExpand = true,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -38,7 +40,9 @@ class GesbukUserPrimaryButtonIcon extends StatelessWidget {
                 color: Colors.white,
                 width: 24.0,
               )
-            : Icon(icon),
+            : icon != null
+                ? Icon(icon)
+                : child ?? const SizedBox(),
         label: Text(label),
       ),
     );

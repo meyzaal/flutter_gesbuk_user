@@ -57,7 +57,7 @@ class ProfileScreen extends GetView<ProfileController> {
           style: Theme.of(context).textTheme.button,
         ),
         subtitle: Text(
-          'Beri nilai aplikasi Gesbuk di Play Store',
+          'Beri nilai aplikasi Gesbuk',
           style: Theme.of(context).textTheme.caption,
         ),
         onTap: () async => await launch(controller.url, context),

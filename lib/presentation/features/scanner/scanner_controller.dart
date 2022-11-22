@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -27,7 +28,7 @@ class ScannerController extends GetxController {
         isFlashOn.value = status;
       }
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
     }
   }
 
@@ -42,7 +43,7 @@ class ScannerController extends GetxController {
         cameraFacing.value = status;
       }
     } catch (error) {
-      print(error);
+      debugPrint(error.toString());
     }
   }
 }

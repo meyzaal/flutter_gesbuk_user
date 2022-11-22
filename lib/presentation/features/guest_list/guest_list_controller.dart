@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gesbuk_user/app/theme/theme.dart';
 import 'package:flutter_gesbuk_user/data/models/guest_model.dart';
 import 'package:flutter_gesbuk_user/data/models/guest_response_model.dart';
 import 'package:flutter_gesbuk_user/domain/use_cases/fetch_guest_use_case.dart';
@@ -25,7 +24,6 @@ class GuestListController extends GetxController
   final RxBool isPageLoading = false.obs;
   final RxBool isScrollLoading = false.obs;
   final RxBool isScrolled = false.obs;
-  final RxBool isSuccessUploadImage = false.obs;
   final TextEditingController textEditingController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
@@ -33,6 +31,7 @@ class GuestListController extends GetxController
   int? totalResults;
   String? eventId = Get.arguments;
   bool _isLoadMore = false;
+  RxBool isSuccessUploadImage = false.obs;
   final RxBool _isFinishFetchData = false.obs;
 
   var guests = RxList<GuestModel>();
@@ -177,15 +176,16 @@ class GuestListController extends GetxController
                       ],
                     ),
                     actions: <Widget>[
-                      isSuccessUploadImage.value
+                      result?.picture != null
                           ? const SizedBox()
                           : TextButton(
                               onPressed: () {
-                                takePicture();
+                                takePicture(id);
                               },
                               child: const Text('Ambil Foto')),
                       TextButton(
                           onPressed: () {
+                            isSuccessUploadImage.value = false;
                             Get.back();
                           },
                           child: const Text('Tutup')),
@@ -239,28 +239,23 @@ class GuestListController extends GetxController
     isScrollLoading.value = false;
   }
 
-  Future<void> _imagePreview(XFile? image) async {
-    var context = Get.context!;
-
+  Future<void> _imagePreview(XFile? image, String id) async {
     if (image != null) {
-      Get.toNamed('/image_preview', arguments: image);
-      isSuccessUploadImage.value = true;
+      Get.toNamed('/image_preview', arguments: [image, id]);
     } else {
+      final context = Get.context!;
       GesbukUserSnackBar.showSnackBar(context,
           'You have not yet picked an image.', Colors.red.shade400, 'Tutup');
     }
   }
 
-  Future<void> takePicture() async {
-    var context = Get.context!;
-
+  Future<void> takePicture(String id) async {
     try {
       final XFile? image =
           await _picker.pickImage(source: ImageSource.camera, imageQuality: 70);
-
-      isSuccessUploadImage.value = true;
-      _imagePreview(image);
+      _imagePreview(image, id);
     } catch (error) {
+      final context = Get.context!;
       await showDialog<void>(
           context: context,
           builder: (context) {
