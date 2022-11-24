@@ -25,4 +25,11 @@ class EventRepositoryIml extends EventRepository {
     return EventResponseModel.fromJson(response, EventEndpoint.enrollEvent)
         .data;
   }
+  
+  @override
+  Future<List<EventModel>?> upcomingEvent() async {
+    final response = await EventAPI.getUpcomingEvent().request();
+    return EventResponseModel.fromJson(response, EventEndpoint.userEvent)
+        .listData;
+  }
 }

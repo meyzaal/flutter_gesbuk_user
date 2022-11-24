@@ -79,7 +79,7 @@ class GesbukUserPages {
     ),
     GetPage(
       name: GesbukUserRoutes.editProfile,
-      page: () => const EditProfileScreen(),
+      page: () =>  EditProfileScreen(),
     ),
   ];
 }

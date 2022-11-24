@@ -3,6 +3,7 @@ import 'package:flutter_gesbuk_user/data/models/event_model.dart';
 
 abstract class EventRepository {
   Future<List<EventModel>?> getEvent();
+  Future<List<EventModel>?> upcomingEvent();
   Future<EventDetailModel?> getEventById(String eventId);
   Future<EventModel?> enrollEvent(String eventKey);
 }

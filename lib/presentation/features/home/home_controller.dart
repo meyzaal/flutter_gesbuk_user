@@ -1,12 +1,16 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_gesbuk_user/data/models/event_model.dart';
+import 'package:flutter_gesbuk_user/domain/use_cases/fetch_upcoming_event_use_case.dart';
 import 'package:flutter_gesbuk_user/presentation/widgets/widgets.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController with StateMixin {
-  // final ProfileController profileController = Get.find<ProfileController>();
-  // final AuthController authController = Get.find<AuthController>();
+class HomeController extends GetxController with StateMixin<List<EventModel>> {
+  final FetchUpcomingEventUseCase _fetchUpcomingEventUseCase;
 
+  RxBool notHaveEvent = false.obs;
+
+  HomeController(this._fetchUpcomingEventUseCase);
   List<Widget> portfolio = [
     const SizedBox(width: 8.0),
     const PortfolioCard(
@@ -113,5 +117,30 @@ class HomeController extends GetxController with StateMixin {
   Color randomColor() {
     return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
         .withOpacity(1.0);
+  }
+
+  getUpcomingEvent() async {
+    try {
+      final events = await _fetchUpcomingEventUseCase.execute();
+      List<EventModel>? data = events;
+
+      change(data, status: RxStatus.success());
+    } catch (error) {
+      if (error.toString().contains('Tidak ada event mendatang')) {
+        notHaveEvent.value = false;
+        return change(null, status: RxStatus.empty());
+      }
+      if (error.toString().contains('Data tidak ditemukan')) {
+        notHaveEvent.value = true;
+        return change(null, status: RxStatus.empty());
+      }
+      change(null, status: RxStatus.error(error.toString()));
+    }
+  }
+
+  @override
+  void onInit() {
+    getUpcomingEvent();
+    super.onInit();
   }
 }

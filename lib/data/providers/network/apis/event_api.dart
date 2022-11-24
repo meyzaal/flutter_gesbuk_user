@@ -2,7 +2,7 @@ import 'package:flutter_gesbuk_user/data/providers/network/api_endpoint.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_provider.dart';
 import 'package:flutter_gesbuk_user/data/providers/network/api_request_representable.dart';
 
-enum EventEndpoint { userEvent, byEventId, enrollEvent }
+enum EventEndpoint { userEvent, byEventId, enrollEvent, upcomingEvent }
 
 class EventAPI implements APIRequestRepresentable {
   final EventEndpoint eventEnpoint;
@@ -20,6 +20,8 @@ class EventAPI implements APIRequestRepresentable {
         );
   EventAPI.enrollEvent(String eventKey)
       : this._(eventEnpoint: EventEndpoint.enrollEvent, eventKey: eventKey);
+  EventAPI.getUpcomingEvent()
+      : this._(eventEnpoint: EventEndpoint.upcomingEvent);
 
   @override
   get body => null;
@@ -45,6 +47,8 @@ class EventAPI implements APIRequestRepresentable {
         return '/$eventId';
       case EventEndpoint.enrollEvent:
         return '/add-user';
+      case EventEndpoint.upcomingEvent:
+        return '/upcoming-event';
     }
   }
 
@@ -62,7 +66,7 @@ class EventAPI implements APIRequestRepresentable {
 
   @override
   String get url => endpoint + path;
-  
+
   @override
   bool get requiresAuthToken => true;
 }
